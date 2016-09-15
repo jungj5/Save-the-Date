@@ -1,0 +1,48 @@
+// Formats for date and time strings to be 
+// matched by regular expressions
+
+
+/////////////////////
+// DATE FORMAT
+/////////////////////
+
+// Possible ways to represent the different 
+// parts of a date
+Month {January, january, Jan, jan, Jan., jan., 1}
+Day {1, 01}
+DayName {Monday, Mon, M}
+Year {2016, 16, '16}
+
+// Possible orders of date components
+Month Day Year
+Day Month Year
+Year Month Day
+Year Day Month
+DayName Month Day Year
+DayName Day Month Year
+
+// Possible separators of date components
+Separator {,, /, -, *space*, :, .}
+
+
+/////////////////////
+// TIME FORMAT
+/////////////////////
+
+// Possible ways to represent the different 
+// parts of a time stamp
+Hour {1, 01}
+Period {am, a.m., AM, A.M.}
+Minute {1, 01}
+Second {1, 01}
+
+// Possible orders of the time components
+Hour Minute Second
+Hour Minute
+Hour
+Hour Period Minute Second
+Hour Period Minute
+Hour Period
+
+// Possible separators of time components
+Separator {:, *space*, .}
