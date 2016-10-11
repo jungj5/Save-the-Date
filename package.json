@@ -1,0 +1,23 @@
+{
+  "name": "pencil-it-in",
+  "version": "0.1.0",
+  "description": "Efficiently manage your Google Calendar. Quickly add & edit events by clicking a date on any website or through the toolbar button.",
+  "main": "parser.js",
+  "dependencies": {},
+  "devDependencies": {
+    "chrono-node": "1.2.4"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jungj5/Save-the-Date.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jungj5/Save-the-Date/issues"
+  },
+  "homepage": "https://github.com/jungj5/Save-the-Date#readme"
+}
