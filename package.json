@@ -3,10 +3,13 @@
   "version": "0.1.0",
   "description": "Efficiently manage your Google Calendar. Quickly add & edit events by clicking a date on any website or through the toolbar button.",
   "main": "parser.js",
-  "dependencies": {},
-  "devDependencies": {
-    "chrono-node": "1.2.4"
+  "dependencies": {
+    "@types/chrome": "0.0.34",
+    "@types/jquery": "^2.0.33",
+    "chrono-node": "^1.2.4",
+    "jquery": "^3.1.1"
   },
+  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
