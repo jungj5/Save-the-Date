@@ -9,7 +9,9 @@
     "chrono-node": "^1.2.4",
     "jquery": "^3.1.1"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "mark.js": "julmot/mark.js"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
