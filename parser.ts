@@ -17,14 +17,26 @@ interface MarkOptions {
 // Function to parse all visible text
 function parseDom(element: HTMLElement): void {
     // var context = visibleNodes[i];
+
+    // Try to get more of the text from the page
+    // .text() works for now but it can be better
+    // (mark searches more of the page...)
     let parserResults = chrono.parse($(element).text());
     for (let i: number = 0; i < parserResults.length; i++) {
         let matchedText: string = parserResults[i].text;
-        console.log(matchedText);
+        let parsedDate: Date = new Date(parserResults[i].start.date());
+        let currentDate: Date = new Date();
+        if (parsedDate.getTime() < currentDate.getTime()) {
+            continue;
+        } 
+        // console.log(now);
         let instance: Mark = new Mark(element);
         let options: MarkOptions = {
             "separateWordSearch": false
         }
+        // May want to move this outside of the loop and 
+        // keep track of all of the matched text with 
+        // an array
         instance.mark(matchedText, options);
     }
 }
