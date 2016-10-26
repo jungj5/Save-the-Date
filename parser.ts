@@ -43,14 +43,18 @@ function parseDom(element: HTMLElement): void {
 // Function that sets up observers and reparses the
 //  page every time there is a change
 $(document).ready(function(): void {
-    parseDom(document.body);
+    $.ajax({success: function() {
+        parseDom(document.body);
+    }});
     let observer: MutationObserver = new MutationObserver(function(mutations) {
         // Called every time a DOM mutation occurs
         mutations.forEach(function(mutation): void {
             var newNodes = mutation.addedNodes;
             if (newNodes) {
                 $(newNodes).each(function(index, node: HTMLElement) {
-                    parseDom(node);
+                    $.ajax({success: function() {
+                        parseDom(node);
+                    }});
                 })
             }
         });
