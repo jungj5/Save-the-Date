@@ -1,4 +1,3 @@
-/// <reference path="node_modules/@types/jquery/index.d.ts" />
 const MIN_PARSABLE_TEXT_LENGTH: number = 3;
 
 console.log("I AM PENCIL-IT-IN, FEEL MY WRATH");
