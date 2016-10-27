@@ -26,7 +26,7 @@
       "js": [
         "node_modules/jquery/dist/jquery.min.js",
         "node_modules/mark.js/dist/mark.min.js",
-        "chrono/chrono.min.js",
+        "node_modules/chrono/chrono.min.js",
         "parser.js"
       ],
 	    "run_at": "document_end"
