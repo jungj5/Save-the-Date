@@ -32,8 +32,22 @@
 	    "run_at": "document_end"
     }
   ],
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": false
+  },
+
+  "content_security_policy": "script-src https://*.google.com 'unsafe-eval'; object-src 'self'",
+
+  "oauth2": {
+     "client_id": "223210400436-gflvl7h6pig37rgvb60o5rbkjuulqhot.apps.googleusercontent.com",
+     "scopes": [
+       "https://www.googleapis.com/auth/calendar"
+     ]
+   },
 
   "permissions": [
-    "activeTab"
+    "activeTab",
+    "identity"
   ]
 }
