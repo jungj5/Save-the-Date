@@ -1,4 +1,3 @@
-/// <reference path="node_modules/@types/jquery/index.d.ts" />
 const MIN_PARSABLE_TEXT_LENGTH: number = 3;
 
 console.log("I AM PENCIL-IT-IN, FEEL MY WRATH");
@@ -17,7 +16,7 @@ interface MarkOptions {
 // Function to parse all visible text
 function parseDom(element: HTMLElement): void {
     // var context = visibleNodes[i];
-    let parserResults = chrono.parse($(element).text());
+    let parserResults = chrono_node.parse($(element).text());
     for (let i: number = 0; i < parserResults.length; i++) {
         let matchedText: string = parserResults[i].text;
         console.log(matchedText);
