@@ -1,7 +1,7 @@
 // chrono-node type definitions
 // Forked from https://github.com/Microsoft/BotBuilder
 
-declare module chrono_node {
+declare module chrono {
     export class ParsedResult {
         start: ParsedComponents;
         end: ParsedComponents;
@@ -23,5 +23,5 @@ declare module chrono_node {
 }
 
 declare module "chrono-node" {
-    export = chrono_node;
+    export = chrono;
 }
