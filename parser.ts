@@ -1,5 +1,7 @@
 const MIN_PARSABLE_TEXT_LENGTH: number = 3;
 
+declare var Mark: any;
+
 console.log("I AM PENCIL-IT-IN, FEEL MY WRATH");
 // Interface describing the variables for the MutationObserver
 interface ObserverConfig {
@@ -69,7 +71,7 @@ function parseDom(chronoParser: Chrono, element: HTMLElement): void {
     for (let i: number = 0; i < parserResults.length; i++) {
         let matchedText: string = parserResults[i].text;
         if (isPastEvent(parserResults[i])) {
-            console.log("knownValues: " + parserResults[i].start.knownValues.month);
+            // console.log("knownValues: " + parserResults[i].start.knownValues.month);
             continue;
         }
 
@@ -85,10 +87,10 @@ function parseDom(chronoParser: Chrono, element: HTMLElement): void {
 //  page every time there is a change
 $(document).ready(function(): void {
 
-
     let chronoParser = chronoConstructor();
 
     parseDom(chronoParser, document.body);
+
     let observer: MutationObserver = new MutationObserver(function(mutations) {
         // Called every time a DOM mutation occurs
         mutations.forEach(function(mutation): void {
