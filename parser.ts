@@ -1,5 +1,7 @@
 const MIN_PARSABLE_TEXT_LENGTH: number = 3;
 
+declare var Mark: any;
+
 console.log("I AM PENCIL-IT-IN, FEEL MY WRATH");
 // Interface describing the variables for the MutationObserver
 interface ObserverConfig {
@@ -27,14 +29,14 @@ function parseDom(element: HTMLElement): void {
         let currentDate: Date = new Date();
         if (parsedDate.getTime() < currentDate.getTime()) {
             continue;
-        } 
+        }
         // console.log(now);
         let instance: Mark = new Mark(element);
         let options: MarkOptions = {
             "separateWordSearch": false
         }
-        // May want to move this outside of the loop and 
-        // keep track of all of the matched text with 
+        // May want to move this outside of the loop and
+        // keep track of all of the matched text with
         // an array
         instance.mark(matchedText, options);
     }
@@ -43,18 +45,22 @@ function parseDom(element: HTMLElement): void {
 // Function that sets up observers and reparses the
 //  page every time there is a change
 $(document).ready(function(): void {
-    $.ajax({success: function() {
-        parseDom(document.body);
-    }});
+    $.ajax({
+        success: function() {
+            parseDom(document.body);
+        }
+    });
     let observer: MutationObserver = new MutationObserver(function(mutations) {
         // Called every time a DOM mutation occurs
         mutations.forEach(function(mutation): void {
             var newNodes = mutation.addedNodes;
             if (newNodes) {
                 $(newNodes).each(function(index, node: HTMLElement) {
-                    $.ajax({success: function() {
-                        parseDom(node);
-                    }});
+                    $.ajax({
+                        success: function() {
+                            parseDom(node);
+                        }
+                    });
                 })
             }
         });
