@@ -13,48 +13,89 @@ interface MarkOptions {
     "separateWordSearch": boolean;
 }
 
+function chronoConstructor() {
+    let chronoParser = new chrono.Chrono();
+
+    let chronoParserRefiner = new chrono.Refiner();
+    chronoParserRefiner.refine = function(text, results, opt) {
+        let newResults = [];
+        results.forEach(function(result) {
+            // console.log("Day = " + result.start.knownValues.day);
+            if (typeof result.start.knownValues.day !== "undefined") {
+                // console.log("Adding a result");
+                newResults.push(result);
+            }
+        });
+        return newResults;
+    }
+
+    chronoParser.refiners.push(chronoParserRefiner);
+
+    return chronoParser;
+}
+
+function markText(textToMark: string[], element: HTMLElement): void {
+    let instance: Mark = new Mark(element);
+    let options: MarkOptions = {
+        "separateWordSearch": false
+    }
+    instance.mark(textToMark, options);
+}
+
+function isPastEvent(parsedResult: ParsedResult): boolean {
+    let parsedDate: Date = new Date(parsedResult.start.date());
+    let currentDate: Date = new Date();
+    currentDate.setHours(23,59,59,999);
+    // console.log("Current date: " + currentDate.getTime());
+    // console.log("Parsed date: " + parsedDate.getTime());
+    if (parsedDate.getTime() <= currentDate.getTime()) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 // Function to parse all visible text
-function parseDom(element: HTMLElement): void {
-    // var context = visibleNodes[i];
+function parseDom(chronoParser: Chrono, element: HTMLElement): void {
 
     // Try to get more of the text from the page
     // .text() works for now but it can be better
     // (mark searches more of the page...)
-    let parserResults = chrono.parse($(element).text());
+
+    let parserResults = chronoParser.parse($(element).text());
+
+    let textToMark: string[] = [];
+
     for (let i: number = 0; i < parserResults.length; i++) {
         let matchedText: string = parserResults[i].text;
-        let parsedDate: Date = new Date(parserResults[i].start.date());
-        let currentDate: Date = new Date();
-        if (parsedDate.getTime() < currentDate.getTime()) {
+        if (isPastEvent(parserResults[i])) {
+            console.log("knownValues: " + parserResults[i].start.knownValues.month);
             continue;
-        } 
-        // console.log(now);
-        let instance: Mark = new Mark(element);
-        let options: MarkOptions = {
-            "separateWordSearch": false
         }
-        // May want to move this outside of the loop and 
-        // keep track of all of the matched text with 
-        // an array
-        instance.mark(matchedText, options);
+
+        textToMark.push(matchedText);
     }
+
+    markText(textToMark, element);
+
 }
+
 
 // Function that sets up observers and reparses the
 //  page every time there is a change
 $(document).ready(function(): void {
-    $.ajax({success: function() {
-        parseDom(document.body);
-    }});
+
+
+    let chronoParser = chronoConstructor();
+
+    parseDom(chronoParser, document.body);
     let observer: MutationObserver = new MutationObserver(function(mutations) {
         // Called every time a DOM mutation occurs
         mutations.forEach(function(mutation): void {
             var newNodes = mutation.addedNodes;
             if (newNodes) {
                 $(newNodes).each(function(index, node: HTMLElement) {
-                    $.ajax({success: function() {
-                        parseDom(node);
-                    }});
+                    parseDom(chronoParser, node);
                 })
             }
         });
