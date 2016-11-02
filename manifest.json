@@ -33,14 +33,14 @@
     }
   ],
   "background": {
-    "scripts": ["background.js"],
+    "scripts": ["gcalApi.js"],
     "persistent": false
   },
 
   "content_security_policy": "script-src https://*.google.com 'unsafe-eval'; object-src 'self'",
 
   "oauth2": {
-     "client_id": "223210400436-gflvl7h6pig37rgvb60o5rbkjuulqhot.apps.googleusercontent.com",
+     "client_id": "25542497210-94g14jpjos5tmvl0nlg9q3tmuhanu5q6.apps.googleusercontent.com",
      "scopes": [
        "https://www.googleapis.com/auth/calendar"
      ]
