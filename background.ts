@@ -1,5 +1,5 @@
-document.addEventListener('DOMContentLoaded', function() {
-  main();
+document.addEventListener('DOMContentLoaded', function () {
+    main();
 });
 
 var events;
@@ -37,7 +37,7 @@ function main() {
       });
   }
 
-  document.getElementById("clickme").addEventListener("click", createEvents);
+  document.getElementById("Create").addEventListener("click", createEvents);
   
 
 
@@ -79,30 +79,42 @@ function loadEvents(){
 
 //function to add an event to the user's calendar
 function createEvents() {
-    var event =
-    {
-        'summary': 'Pencil-It-In Test',
-        'location': '800 Howard St., San Francisco, CA 94103',
+    var Event_Summary = $("#event_title_input").val();
+    var Event_Location = $("#location_input").val();
+    var Event_Start_Date = $("#start_date").val();
+    var Event_End_Date = $("#end_date").val();
+
+    //Nov 1, 2016
+    var Months = {
+      'Jan' : '01',
+      'Feb' : '02',
+      'Mar' : '03',
+      'Apr' : '04',
+      'May' : '05',
+      'Jun' : '06',
+      'Jul' : '07',
+      'Aug' : '08',
+      'Sep' : '09',
+      'Oct' : '10',
+      'Nov' : '11',
+      'Dec' : '12'
+    }
+    //06:30 PM
+
+    console.log(Event_Start_Date);
+
+    var event = {
+        'summary': Event_Summary,
+        'location': Event_Location,
         'description': 'Testing event creating for P-I-I app',
         'start': {
-            'dateTime': '2016-10-15T09:00:00-07:00',
+            'dateTime': Event_Start_Date + 'T09:00:00',
             'timeZone': 'America/New_York'
         },
         'end': {
-            'dateTime': '2016-10-16T17:00:00-07:00',
+            'dateTime': Event_End_Date + "T09:00:00",
             'timeZone': 'America/Los_Angeles'
         },
-        'recurrence': [
-            'RRULE:FREQ=DAILY;COUNT=2'
-        ],
-        'attendees': [{ 'email': 'bikramsbajwa6@gmail.com' }],
-        'reminders': {
-            'useDefault': false,
-            'overrides': [
-                { 'method': 'email', 'minutes': 24 * 60 },
-                { 'method': 'popup', 'minutes': 10 }
-            ]
-        }
     };
     var request = gapi.client.calendar.events.insert(
         {

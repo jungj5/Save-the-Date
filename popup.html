@@ -5,6 +5,7 @@
     <!--Import Google Icon Font-->
     <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!--Import materialize.css and materialize-clockpicker.css-->
+
     <link type="text/css" rel="stylesheet" href="css/materialize.css" media="screen,projection" />
     <link type="text/css" rel="stylesheet" href="css/clockpicker.css"/>
     <link type="text/css" rel="stylesheet" href="node_modules/jquery-timepicker/jquery.timepicker.css"/>
@@ -12,6 +13,7 @@
 
     <!-- Import popup.css -->
     <link type="text/css" rel="stylesheet" href="css/popup.css"/>
+
 
     <!--Let browser know website is optimized for mobile-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -49,45 +51,56 @@
           <!-- Date and time pickers -->
           <div class="row date-time-picker">
             <div class="s5 col">
-              <input type="date" class="datepicker" placeholder="Date">
+
+              <input type="date" class="datepicker" placeholder="Date" id="start_date">
+
             </div>
             <div class="s2 col">
                 at
             </div>
             <div class="s5 col">
-              <input id="timepicker" class="timepicker" type="text" placeholder="Time">
+
+              <input id="timepicker1" class="timepicker" type="text" placeholder="Time (hh:mm AM/PM)">
+
             </div>
           </div>
           <div class="row date-time-picker">
             <div class="s5 col">
-              <input type="date" class="datepicker" placeholder="Date">
+
+              <input type="date" class="datepicker" placeholder="Date" id="end_date">
+
             </div>
             <div class="s2 col">
                 at
             </div>
             <div class="s5 col">
-              <input id="timepicker" class="timepicker" type="text" placeholder="Time">
+
+              <input id="timepicker2" class="timepicker" type="text" placeholder="Time (hh:mm AM/PM)">
+
             </div>
           </div>
           <div class="input-field">
             <i class="material-icons prefix">add_location</i>
             <input class="black-text" placeholder="Location" id="location_input" type="text">
+
           </div>
 
           <div class="input-field">
-            <textarea id="textarea1" class="materialize-textarea"></textarea>
             <label for="textarea1">Description</label>
+            <textarea id="textarea1" class="materialize-textarea"></textarea>
           </div>
 
           <div class="center-align">
-            <button class="btn waves-effect waves-light" name="action">Create
+            <button class="btn waves-effect waves-light" name="action" id="Create">Create
             </button>
+            <script type="text/javascript" src="background.js"></script>
           </div>
         </div>
       </div>
 
-      <div class="col calendar-wrapper">
-        <div class="card-panel calendar-event">
+      <div class="col calendar-wrapper" id="agenda">
+
+        <!--<div class="card-panel calendar-event">
           Event
         </div>
         <div class="card-panel calendar-event">
@@ -111,14 +124,20 @@
         <div class="card-panel calendar-event">
           Event
         </div>
+
+      </div> -->
+
       </div>
+
     </div>
 
     <!--Import jQuery before materialize.js and materialize-clockpicker.js-->
     <script type="text/javascript" src="node_modules/jquery/dist/jquery.min.js"></script>
     <script type="text/javascript" src="node_modules/materialize-css/dist/js/materialize.min.js"></script>
+
     <!-- <script type="text/javascript" src="node_modules/materialize-clockpicker/dist/js/materialize.clockpicker.js"></script> -->
     <script type="text/javascript" src="node_modules/jquery-timepicker/jquery.timepicker.js"></script>
+
 
     <!-- Import popup.js -->
     <script type="text/javascript" src="js/popup.js"></script>

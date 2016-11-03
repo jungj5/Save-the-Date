@@ -52,7 +52,7 @@ class ChronoParser {
         return count;
     }
 
-    // Find all of the text corresponding to time 
+    // Find all of the text corresponding to time
     //  events in the specified DOM element
     parseDom(element: HTMLElement): {[index: string]: string[]} {
 

@@ -24,7 +24,7 @@
     {
       "matches": ["http://*/*", "https://*/*"],
       "css": [
-        "mark.css",
+        "mark.css"
       ],
       "js": [
         "node_modules/jquery/dist/jquery.min.js",

@@ -7,6 +7,7 @@ var SCOPES = ["https://www.googleapis.com/auth/calendar"];
 /**
  * Check if current user has authorized this application.
  */
+
 function checkAuth() {
   gapi.auth.authorize(
     {
@@ -74,6 +75,7 @@ function listUpcomingEvents() {
     appendPre('Upcoming events:');
 
     if (events.length > 0) {
+      var i = 0;
       for (i = 0; i < events.length; i++) {
         var event = events[i];
         var when = event.start.dateTime;
