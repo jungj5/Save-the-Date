@@ -31,7 +31,7 @@ class GoogleCalendarAPI {
 	authorize(): void {
 		console.log("Entered authorize");
 	    gapi.auth.authorize({
-	        client_id: '955471480917-os9ckb90t4pr092sg6ulpg1ogjmpr5ot.apps.googleusercontent.com',
+	        client_id: '223210400436-gflvl7h6pig37rgvb60o5rbkjuulqhot.apps.googleusercontent.com',
 	        immediate: true,
 	        scope: 'https://www.googleapis.com/auth/calendar'
 	    }, function () {
@@ -92,7 +92,7 @@ class GoogleCalendarAPI {
 				'recurrence': [
 					'RRULE:FREQ=DAILY;COUNT=2'
 				],
-				'attendees': [{ 'email': 'bikramsbajwa6@gmail.com' }],
+				'attendees': [{ 'email': 'dragster.joe@gmail.com' }],
 				'reminders': {
 					'useDefault': false,
 					'overrides': [

@@ -1,11 +1,118 @@
-
 <!DOCTYPE html>
 <html>
-  
-  <body style="width: 300px">
-    Click here to create event :)
-    <button id="clickme">click me</button>
-    <script type="text/javascript" src="background.js"></script>
-    <p id= "agenda" style = "white-space: pre-wrap"></p>
-  </body>
+
+<head>
+    <!--Import Google Icon Font-->
+    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Import materialize.css and materialize-clockpicker.css-->
+    <link type="text/css" rel="stylesheet" href="node_modules/materialize-css/css/materialize.css" media="screen,projection" />
+    <link type="text/css" rel="stylesheet" href="node_modules/materialize-clockpicker/dist/css/materialize.clockpicker.css"/>
+
+    <!-- Import popup.css -->
+    <link type="text/css" rel="stylesheet" href="css/popup.min.css"/>
+
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <div class="navbar-fixed">
+      <nav class="light-blue">
+        <div class="nav-wrapper">
+          <a href="#!"><i class="material-icons left">event</i></a>
+          <a><i class="material-icons right">more_vert</i></a>
+          <form>
+            <div class="input-field">
+              <input id="search" type="search" required>
+              <label for="search"><i class="material-icons">search</i></label>
+              <i class="material-icons">close</i>
+            </div>
+          </form>
+        </div>
+      </nav>
+    </div>
+
+
+</head>
+
+<body>
+    <div class="row">
+      <div class="col new-event-wrapper">
+        <div class="card-panel new-event">
+          <h6>Create an Event</h6>
+
+          <!-- Event title input -->
+          <div class="input-field">
+            <input class="black-text" placeholder="Event Title" id="event_title_input" type="text">
+          </div>
+
+          <!-- Date and time pickers -->
+          <div class="row date-time-picker">
+            <div class="s5 col">
+              <input type="date" class="datepicker" placeholder="Date" id="start_date">
+            </div>
+            <div class="s2 col">
+                at
+            </div>
+            <div class="s5 col">
+              <input id="timepicker" class="timepicker" type="time" placeholder="Time">
+            </div>
+          </div>
+          <div class="row date-time-picker">
+            <div class="s5 col">
+              <input type="date" class="datepicker" placeholder="Date" id="end_date">
+            </div>
+            <div class="s2 col">
+                at
+            </div>
+            <div class="s5 col">
+              <input id="timepicker" class="timepicker" type="time" placeholder="Time">
+            </div>
+          </div>
+          <div class="input-field">
+            <i class="material-icons prefix">add_location</i>
+            <input class="black-text" placeholder="Location" id="location_input" type="text">
+            <button id="clickme">click me</button>
+            <script type="text/javascript" src="background.js"></script>
+          </div>
+        </div>
+      </div>
+      <p id= "agenda" style = "white-space: pre-wrap"></p>
+      <!--<div class="col calendar-wrapper">
+        <div class="card-panel calendar-event">
+          Event
+        </div>
+        <div class="card-panel calendar-event">
+          Event
+        </div>
+        <div class="card-panel calendar-event">
+          Event
+        </div>
+        <div class="card-panel calendar-event">
+          Event
+        </div>
+        <div class="card-panel calendar-event">
+          Event
+        </div>
+        <div class="card-panel calendar-event">
+          Event
+        </div>
+        <div class="card-panel calendar-event">
+          Event
+        </div>
+        <div class="card-panel calendar-event">
+          Event
+        </div>
+      </div>-->
+    </div>
+
+    <!--Import jQuery before materialize.js and materialize-clockpicker.js-->
+    <script type="text/javascript" src="node_modules/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="node_modules/materialize-css/dist/js/materialize.min.js"></script>
+    <script type="text/javascript" src="node_modules/materialize-clockpicker/dist/js/materialize.clockpicker.js"></script>
+
+    <!-- Import popup.js -->
+    <script type="text/javascript" src="js/popup.js"></script>
+
+
+</body>
+
 </html>
