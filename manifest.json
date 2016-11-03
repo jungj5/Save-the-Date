@@ -21,26 +21,38 @@
   },
 
   "content_scripts": [
-	  {
-	    "matches": ["http://*/*", "https://*/*"],
+    {
+      "matches": ["http://*/*", "https://*/*"],
       "css": [
         "mark.css",
-        "modal.css"
       ],
       "js": [
         "node_modules/jquery/dist/jquery.min.js",
         "node_modules/mark.js/dist/mark.min.js",
         "node_modules/chrono-node/chrono.min.js",
-        "hover_popup.js",
         "parser.js",
         "marker.js",
         "main.js"
       ],
-	    "run_at": "document_end"
+      "run_at": "document_end"
     }
   ],
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": false
+  },
+
+  "content_security_policy": "script-src https://*.google.com 'unsafe-eval'; object-src 'self'",
+
+  "oauth2": {
+     "client_id": "955471480917-2n5jm56c3uucharlj9njl17kbmg72r5h.apps.googleusercontent.com",
+     "scopes": [
+       "https://www.googleapis.com/auth/calendar"
+     ]
+   },
 
   "permissions": [
-    "activeTab"
+    "activeTab",
+    "identity"
   ]
 }
