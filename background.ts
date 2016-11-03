@@ -33,10 +33,8 @@ function main() {
             gapi.client.load('calendar', 'v3', loadEvents);
         });
     }
-
     var text = $("event_title_input").val();
-
-    document.getElementById("clickme").addEventListener("click", createEvents);
+    document.getElementById("Create").addEventListener("click", createEvents);
 }
 //function to load upcoming events from the user's calendar
 function loadEvents() {
@@ -72,38 +70,70 @@ function createEvents() {
     var Event_Location = $("#location_input").val();
     var Event_Start_Date = $("#start_date").val();
     var Event_End_Date = $("#end_date").val();
-
+    var Event_Description = $("#textarea1").val();
     //Nov 1, 2016
     var Months = {
-      'Jan' : '01',
-      'Feb' : '02',
-      'Mar' : '03',
-      'Apr' : '04',
-      'May' : '05',
-      'Jun' : '06',
-      'Jul' : '07',
-      'Aug' : '08',
-      'Sep' : '09',
-      'Oct' : '10',
-      'Nov' : '11',
-      'Dec' : '12'
+        'Jan': '01',
+        'Feb': '02',
+        'Mar': '03',
+        'Apr': '04',
+        'May': '05',
+        'Jun': '06',
+        'Jul': '07',
+        'Aug': '08',
+        'Sep': '09',
+        'Oct': '10',
+        'Nov': '11',
+        'Dec': '12'
+    };
+    //case handles AM
+    var start_time = $("#timepicker1").val().slice(0, -3);
+    var end_time = $("#timepicker2").val().slice(0, -3);
+    if ($("#timepicker1").val().slice(-2) == "AM" && start_time.length == 4) {
+      start_time = "0" + start_time;
     }
-    //06:30 PM
+    if ($("#timepicker2").val().slice(-2) == "AM" && end_time.length == 4) {
+      end_time = "0" + end_time;
+    }
+    //Case handles PM
+    if ($("#timepicker2").val().slice(-2) == "PM") {
+      if (start_time.length == 4) {
+        var hour = start_time[0];
+      }
+      else {
+        var hour = start_time[0] + start_time[1];
+      }
+      hour = parseInt(hour) + 12;
+      hour = hour.toString();
+      start_time = hour + start_time.slice(-3);
 
-    console.log(Event_Start_Date);
+      if (end_time.length == 4) {
+        var hour = end_time[0];
+      }
+      else {
+        var hour = end_time[0] + end_time[1];
+      }
+      hour = parseInt(hour) + 12;
+      hour = hour.toString();
+      end_time = hour + end_time.slice(-3);
+
+    }
+    console.log(start_time);
+    console.log(end_time);
+    //06:30 PM
 
     var event = {
         'summary': Event_Summary,
         'location': Event_Location,
-        'description': 'Testing event creating for P-I-I app',
+        'description': Event_Description,
         'start': {
-            'dateTime': Event_Start_Date + 'T09:00:00',
+            'dateTime': Event_Start_Date + 'T' + start_time + ':00',
             'timeZone': 'America/New_York'
         },
         'end': {
-            'dateTime': Event_End_Date + "T09:00:00",
-            'timeZone': 'America/Los_Angeles'
-        },
+            'dateTime': Event_End_Date + 'T' + end_time + ':00',
+            'timeZone': 'America/New_York'
+        }
     };
     var request = gapi.client.calendar.events.insert({
         'calendarId': 'primary',
