@@ -1,0 +1,132 @@
+/*
+ *Main colors-
+ *  light-blue: #03a9f4
+ *  red accent-2: #FF5252
+
+\::-webkit-scrollbar
+  width: 10px
+
+\::-webkit-scrollbar-track
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3)
+
+\::-webkit-scrollbar-thumb
+  background: #BDBDBD
+
+  &:hover
+    background: #9E9E9E
+
+  &:active
+    background: #757575
+
+\::-moz-selection, ::selection
+  background: #03a9f4
+  color: #fff
+
+body
+  overflow: hidden
+  min-width: 350px
+
+.row
+  margin: auto
+  .col
+    padding: .3rem .5rem
+
+.card-panel
+  padding: 10px
+
+.navbar-fixed
+  height: 30px
+
+nav
+  height: 30px
+  line-height: 30px
+
+  i.material-icons
+    height: 30px
+
+  .brand-logo
+    font-size: 1rem
+
+  i.material-icons
+    line-height: inherit
+    font-size: 1.5rem
+    margin-right: .5rem
+    margin-left: .5rem
+
+  .input-field input[type=search]
+    padding-left: 2rem
+    padding-right: 2.5rem
+    width: calc(100% - 5.5rem)
+
+    + label
+      left: -.1rem
+
+    ~ .material-icons
+      font-size: 1.5rem
+
+form
+  margin: auto
+  width: 80%
+
+.new-event-wrapper
+  width: 280px
+
+.new-event .input-field
+  margin-top: .5rem
+
+  label.active
+    font-size: .9rem
+    top: .5rem
+
+.new-event .input-field .prefix ~ input
+  margin-left: 2.5rem
+
+input
+  &[type=text]
+    height: 2rem
+    margin: 0 0 5px 0
+
+.row .calendar-wrapper
+  overflow-x: hidden
+  overflow-y: auto
+  position: absolute
+  height: calc(100% - 30px)
+  min-width: 50px
+  width: calc(100% - 280px)
+  margin-left: 280px
+
+.new-event .picker__date-display
+  display: none
+
+.date-time-picker .col
+  padding: 0
+  text-align: center
+  &.s2
+    padding-top: .5rem
+  input
+    text-align: center
+
+.picker:not(.clockpicker)
+  .picker__holder .picker__frame
+    width: 250px !important
+    .picker__wrap
+      height: 0% !important
+    .picker__footer
+      padding: 0
+    .picker__calendar-container
+      padding: 0
+      .picker__day--infocus
+        padding: .6rem 0
+
+.clockpicker
+  .picker__footer .clockpicker-button
+    margin-top: -25px
+
+.date-time-picker .timepicker
+  height: 2rem
+
+.ui-timepicker-container
+  height: 150px !important
+
+.input-field label.active
+  transform: translateY(-90%)

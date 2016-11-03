@@ -6,8 +6,12 @@
   "dependencies": {
     "@types/chrome": "0.0.34",
     "@types/jquery": "^2.0.33",
+    "@types/materialize-css": "^0.97.32",
     "chrono-node": "^1.2.4",
-    "jquery": "^3.1.1"
+    "jquery": "^3.1.1",
+    "jquery-timepicker": "^1.3.3",
+    "materialize-clockpicker": "^1.0.1",
+    "materialize-css": "^0.97.8"
   },
   "devDependencies": {
     "mark.js": "julmot/mark.js"
