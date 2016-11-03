@@ -1,59 +1,57 @@
-const MIN_PARSABLE_TEXT_LENGTH: number = 3;
+declare var chrono: any;
 
-console.log("I AM PENCIL-IT-IN, FEEL MY WRATH");
-// Interface describing the variables for the MutationObserver
-interface ObserverConfig {
-    attributes: boolean;
-    childList: boolean;
-    characterData: boolean;
-    subtree: boolean;
-}
+class ChronoParser {
+    private parser;
 
-interface MarkOptions {
-    "separateWordSearch": boolean;
-}
-
-// Function to parse all visible text
-function parseDom(element: HTMLElement): void {
-    // var context = visibleNodes[i];
-    let parserResults = chrono.parse($(element).text());
-    for (let i: number = 0; i < parserResults.length; i++) {
-        let matchedText: string = parserResults[i].text;
-        console.log(matchedText);
-        let instance: Mark = new Mark(element);
-        let options: MarkOptions = {
-            "separateWordSearch": false
+    // Initialize the chrono parser with a refiner
+    //  that ignores time events without a specified day
+    constructor() {
+        this.parser = new chrono.Chrono();
+        let parserRefiner = new chrono.Refiner();
+        parserRefiner.refine = function(text, results, opt) {
+            let newResults = [];
+            results.forEach(function(result) {
+                if (typeof result.start.knownValues.day !== "undefined") {
+                    newResults.push(result);
+                }
+            });
+            return newResults;
         }
-        instance.mark(matchedText, options);
+        this.parser.refiners.push(parserRefiner);
+    }
+
+    // Checks if a time event already happened
+    // Returns true for past events, false otherwise
+    private isPastEvent(parsedResult): boolean {
+        let parsedDate: Date = new Date(parsedResult.start.date());
+        let currentDate: Date = new Date();
+        currentDate.setHours(23,59,59,999);
+        if (parsedDate.getTime() <= currentDate.getTime()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    // Find all of the text corresponding to time
+    //  events in the specified DOM element
+    parseDom(element: HTMLElement): string[] {
+        // Try to get more of the text from the page
+        // .text() works for now but it can be better
+        // (mark searches more of the page...)
+        let parserResults = this.parser.parse($(element).text());
+
+        // Get all of the matched text strings that did
+        //  not already occur
+        let textToMark: string[] = [];
+        for (let i: number = 0; i < parserResults.length; i++) {
+            let matchedText: string = parserResults[i].text;
+            if (this.isPastEvent(parserResults[i])) {
+                continue;
+            }
+
+            textToMark.push(matchedText);
+        }
+        return textToMark;
     }
 }
-
-// Function that sets up observers and reparses the
-//  page every time there is a change
-$(document).ready(function(): void {
-    parseDom(document.body);
-    let observer: MutationObserver = new MutationObserver(function(mutations) {
-        // Called every time a DOM mutation occurs
-        mutations.forEach(function(mutation): void {
-            var newNodes = mutation.addedNodes;
-            if (newNodes) {
-                $(newNodes).each(function(index, node: HTMLElement) {
-                    parseDom(node);
-                })
-            }
-        });
-    });
-
-    //Notify me of everything!
-    let observerConfig: ObserverConfig = {
-        attributes: false,
-        childList: true,
-        characterData: true,
-        subtree: true
-    };
-
-    // Node, config
-    // In this case we'll listen to all changes to body and child nodes
-    let targetNode: HTMLElement = document.body;
-    observer.observe(targetNode, observerConfig);
-});

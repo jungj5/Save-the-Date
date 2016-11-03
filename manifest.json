@@ -23,11 +23,16 @@
   "content_scripts": [
 	  {
 	    "matches": ["http://*/*", "https://*/*"],
+      "css": [
+        "mark.css"
+      ],
       "js": [
         "node_modules/jquery/dist/jquery.min.js",
         "node_modules/mark.js/dist/mark.min.js",
         "node_modules/chrono-node/chrono.min.js",
-        "parser.js"
+        "parser.js",
+        "marker.js",
+        "main.js"
       ],
 	    "run_at": "document_end"
     }
