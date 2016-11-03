@@ -7,21 +7,30 @@ interface MarkOptions {
 
 class Marker {
 	private instance;
-	private options: MarkOptions;
 
 	constructor(context: HTMLElement) {
 		this.instance = new Mark(context);
-		this.options = {
-	        "className": "markedText",
-	        "separateWordSearch": false
-	    }
 	}
 
 	setContext(newContext: HTMLElement): void {
 		this.instance = new Mark(newContext);
 	}
 
-	markText(textToMark: string[]): void {
-		this.instance.mark(textToMark, this.options);
+	markText(textToMark: {[index: string]: string[]}): void {
+		let greenText: string[] = textToMark["green"];
+		let yellowText: string[] = textToMark["yellow"];
+		let redText: string[] = textToMark["red"];
+
+		let options = {
+	        "className": "greenText",
+	        "separateWordSearch": false
+	    }
+		this.instance.mark(greenText, options);
+
+		options["className"] = "yellowText";
+		this.instance.mark(yellowText, options);
+		
+		options["className"] = "redText";
+		this.instance.mark(redText, options);
 	}
 }
