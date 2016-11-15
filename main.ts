@@ -1,6 +1,5 @@
 /// <reference path="parser.ts" />
 /// <reference path="marker.ts" />
-/// <reference path="gcalApi.ts" />
 
 const MIN_PARSABLE_TEXT_LENGTH: number = 3;
 
@@ -14,9 +13,34 @@ interface ObserverConfig {
     subtree: boolean;
 }
 
+function addHover(): void {
+    $(".greenText, .yellowText, .redText").unbind("mouseenter mouseleave");
+    $(".greenText, .yellowText, .redText").hover(function(e) {
+        console.log("First");
+        // console.log("Entered hover function");
+        let markTop: number = $(this).position().top;
+        let markLeft: number = $(this).position().left;
+        console.log("y: " + markTop);
+        console.log("x: " + markLeft);
+        console.log("e.pageY: " + e.pageY);
+        console.log("e.pageX: " + e.pageX);
+        // console.log(position);
+        $('<p class="tooltip"></p>')
+            .text("Test tooltip")
+            .appendTo("body")
+            .fadeIn("slow")
+            .css({top: e.pageY+20, left: e.pageX+20});
+    }, function() {
+        // Hover out code
+        $('.tooltip').remove();
+    });
+}
+
 // Function that sets up observers and reparses the
 //  page every time there is a change
 $(document).ready(function(): void {
+
+    // console.log("HERE");
 
     // Wait until the events are received from the 
     //  GCal class
@@ -30,6 +54,7 @@ $(document).ready(function(): void {
         // Parse the page and highlight appropriate text
         let textToMark: {[index: string]: string[]} = chronoParser.parseDom(document.body);
         marker.markText(textToMark);
+        addHover();
 
         let observer: MutationObserver = new MutationObserver(function(mutations) {
             // Called every time a DOM mutation occurs
@@ -41,7 +66,9 @@ $(document).ready(function(): void {
                         textToMark = chronoParser.parseDom(node);
                         marker.setContext(node);
                         marker.markText(textToMark);
-                    })
+                        //Add the hover functionality
+                        addHover();
+                    });
                 }
             });
         });

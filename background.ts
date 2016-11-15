@@ -30,7 +30,7 @@ function main() {
 
   function authorize() {
       gapi.auth.authorize({
-          client_id: '25542497210-94g14jpjos5tmvl0nlg9q3tmuhanu5q6.apps.googleusercontent.com',
+          client_id: '955471480917-2n5jm56c3uucharlj9njl17kbmg72r5h.apps.googleusercontent.com',
           immediate: true,
           scope: 'https://www.googleapis.com/auth/calendar'
       }, function () {
@@ -177,6 +177,7 @@ function display(message) {
 // Sends events to main.js to be handled by content scripts
 // May need to change this so that it doesn't wait for an update
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
+  console.log("Background log message");
   if (changeInfo.status == 'complete' && tab.active) {
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
       chrome.tabs.sendMessage(tabs[0].id, events, function(response) {

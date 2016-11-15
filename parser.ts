@@ -42,6 +42,9 @@ class ChronoParser {
         for (let i = 0; i < this.events.length; i++) {
             let currentEventStart: Date = new Date(this.events[i].start.dateTime);
             let currentEventEnd: Date = new Date(this.events[i].end.dateTime);
+            // console.log("Event start " + currentEventStart);
+            // console.log("Event end " + currentEventEnd);
+            // console.log("Proposed event " + proposedEventTime);
             if (proposedEventTime.getTime() >= currentEventStart.getTime() && proposedEventTime.getTime() <= currentEventEnd.getTime()) {
                 count++;
             }

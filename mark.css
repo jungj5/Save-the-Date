@@ -1,7 +1,3 @@
-mark {
-	/*background-color: rgba(255,0,0,.25);*/
-}
-
 .greenText {
 	background-color: rgba(0,255,0,.25);
 }
@@ -16,4 +12,15 @@ mark {
 
 mark:hover {
 	cursor: pointer;
+}
+
+.tooltip {
+	display:none;
+	position:absolute;
+	border:1px solid #333;
+	background-color:#161616;
+	border-radius:5px;
+	padding:10px;
+	color:#fff;
+	font-size:12px Arial;
 }
