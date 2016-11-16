@@ -17,22 +17,16 @@ function addHover(): void {
     $(".greenText, .yellowText, .redText").unbind("mouseenter mouseleave");
     $(".greenText, .yellowText, .redText").hover(function(e) {
         console.log("First");
-        // console.log("Entered hover function");
-        let markTop: number = $(this).position().top;
-        let markLeft: number = $(this).position().left;
-        console.log("y: " + markTop);
-        console.log("x: " + markLeft);
-        console.log("e.pageY: " + e.pageY);
-        console.log("e.pageX: " + e.pageX);
-        // console.log(position);
-        $('<p class="tooltip"></p>')
-            .text("Test tooltip")
+        let x: number = e.clientX;
+        let y: number = e.clientY;
+        $('<div class="calendarPopup"></div>')
+            .text("Test calendarPopup")
             .appendTo("body")
             .fadeIn("slow")
-            .css({top: e.pageY+20, left: e.pageX+20});
+            .css({top: y+20+"px", left: x+20+"px"});
     }, function() {
         // Hover out code
-        $('.tooltip').remove();
+        $('.calendarPopup').remove();
     });
 }
 
