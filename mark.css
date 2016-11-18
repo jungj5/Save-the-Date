@@ -18,10 +18,10 @@ mark:hover {
 	display:none;
 	position:fixed;
 	border:1px solid #333;
-	background-color:#161616;
-	border-radius:5px;
-	padding:10px;
+	background-color:#fff;
+	border-radius:2px;
+	padding:2px;
 	color:#fff;
-	font-size:12px Arial;
 	z-index: 1;
+	min-width: 350px
 }
