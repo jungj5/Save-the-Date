@@ -1,13 +1,13 @@
 .greenText {
-	background-color: rgba(0,255,0,.25);
+	background-color: rgba(0,255,0,.125);
 }
 
 .yellowText {
-	background-color: rgba(255,255,0,.25);
+	background-color: rgba(255,255,0,.20);
 }
 
 .redText {
-	background-color: rgba(255,0,0,.25);
+	background-color: rgba(255,0,0,.10);
 }
 
 mark:hover {
