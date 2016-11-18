@@ -25,12 +25,18 @@ class Marker {
 	        "className": "greenText",
 	        "separateWordSearch": false
 	    }
-		this.instance.mark(greenText, options);
+	    if (greenText.length > 0) {
+			this.instance.mark(greenText, options);
+	    } 
 
-		options["className"] = "yellowText";
-		this.instance.mark(yellowText, options);
+	    if (yellowText.length > 0) {
+	    	options["className"] = "yellowText";
+			this.instance.mark(yellowText, options);
+	    }
 		
-		options["className"] = "redText";
-		this.instance.mark(redText, options);
+		if (redText.length > 0) {
+			options["className"] = "redText";
+			this.instance.mark(redText, options);	
+		}
 	}
 }

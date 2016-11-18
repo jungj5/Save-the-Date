@@ -37,12 +37,19 @@ class ChronoParser {
 
     // Get the number of conflicts that the 
     //  proposed event has with existing events
-    private getNumConflicts(proposedEventTime: Date): number {
+    private getNumConflicts(proposedEventStart: Date, proposedEventEnd: Date): number {
         let count = 0;
         for (let i = 0; i < this.events.length; i++) {
             let currentEventStart: Date = new Date(this.events[i].start.dateTime);
             let currentEventEnd: Date = new Date(this.events[i].end.dateTime);
-            if (proposedEventTime.getTime() >= currentEventStart.getTime() && proposedEventTime.getTime() <= currentEventEnd.getTime()) {
+            // console.log("Current start " + currentEventStart);
+            // console.log("Current end " + currentEventEnd);
+            // console.log("Proposed start " + proposedEventStart);
+            // console.log("Proposed end " + proposedEventEnd);
+            if ((proposedEventStart.getTime() >= currentEventStart.getTime() && proposedEventStart.getTime() <= currentEventEnd.getTime()) 
+                || (proposedEventEnd.getTime() >= currentEventStart.getTime() && proposedEventEnd.getTime() <= currentEventEnd.getTime())
+                || (proposedEventStart.getTime() <= currentEventStart.getTime() && proposedEventEnd.getTime() >= currentEventEnd.getTime())) {
+                // console.log("Count incremented");
                 count++;
             }
             if (count >= 2) {
@@ -77,7 +84,16 @@ class ChronoParser {
             }
             // Assign an appropriate color based on the 
             //  number of event conflicts
-            let numConflicts = this.getNumConflicts(new Date(parserResults[i].start.date()));
+            let parserResult: ParsedResult = parserResults[i];
+            let proposedEventStart: Date = new Date(parserResult.start.date());
+            let proposedEventEnd: Date;
+            if (parserResult.end) {
+                proposedEventEnd = new Date(parserResult.end.date());
+            } else {
+                proposedEventEnd = new Date(parserResult.start.date());
+                proposedEventEnd.setHours(proposedEventStart.getHours()+1);
+            }
+            let numConflicts = this.getNumConflicts(proposedEventStart, proposedEventEnd);
             if (numConflicts == 0) {
                 textToMark["green"].push(matchedText);
             } else if (numConflicts == 1) {
