@@ -30,7 +30,7 @@ function main() {
 
   function authorize() {
       gapi.auth.authorize({
-          client_id: '25542497210-94g14jpjos5tmvl0nlg9q3tmuhanu5q6.apps.googleusercontent.com',
+          client_id: '223210400436-gflvl7h6pig37rgvb60o5rbkjuulqhot.apps.googleusercontent.com',
           immediate: true,
           scope: 'https://www.googleapis.com/auth/calendar'
       }, function () {
@@ -166,7 +166,7 @@ function createEvents() {
     });
 }
 
-    
+
 //function to add a message to the popup
 function display(message) {
     var pre = document.getElementById('agenda');
