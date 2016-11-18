@@ -19,11 +19,6 @@ $('.datepicker').pickadate({
     }
 });
 
-// $('.timepicker').pickatime({
-//     autoclose: true,
-//     twelvehour: true
-// });
-
 $('.timepicker').timepicker({
     dynamic: false,
     startTime: '12:00'
