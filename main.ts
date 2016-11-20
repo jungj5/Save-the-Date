@@ -20,9 +20,10 @@ function addHover(): void {
         let y: number = e.clientY;
 
         // Set up popup iframe
-        let popupURL: string = chrome.runtime.getURL('popup.html');
+        let popupURL: string = chrome.runtime.getURL('hover_popup.html');
         let dateText: string = $(e.target).text();
-        $("<iframe class='calendarPopup' src='" + popupURL + '?date=' + encodeURIComponent(dateText) + "'></iframe>")
+        $("<iframe class='calendarPopup' src='" + popupURL + '?date=' + encodeURIComponent(dateText) +
+            "' height='354.375' width='280'></iframe>")
             .appendTo("body")
             .fadeIn("slow")
             .css({top: y+20+"px", left: x+20+"px"});
