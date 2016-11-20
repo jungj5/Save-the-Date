@@ -84,6 +84,7 @@ function addHover(): void {
     $(document).click(function(event) {
         if (!$(event.target).closest('.calendarPopup').length) {
             $('.calendarPopup').remove();
+            removePopup = true;
         }
     });
 }
