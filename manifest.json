@@ -42,10 +42,16 @@
     "persistent": false
   },
 
+  "web_accessible_resources": [
+    "hover_popup.html",
+    "css/materialize.css",
+    "node_modules/jquery/dist/jquery.min.js"
+  ],
+
   "content_security_policy": "script-src https://*.google.com 'unsafe-eval'; object-src 'self'",
 
   "oauth2": {
-     "client_id": "955471480917-2n5jm56c3uucharlj9njl17kbmg72r5h.apps.googleusercontent.com",
+     "client_id": "1069896597696-7lvcholk495vuj6ad4jnn7iusg0up47s.apps.googleusercontent.com",
      "scopes": [
        "https://www.googleapis.com/auth/calendar"
      ]

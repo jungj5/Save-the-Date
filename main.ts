@@ -50,8 +50,12 @@ function addHover(): void {
 
         if (removePopup) {
             timeout = window.setTimeout(function() {
-                $('<div class="calendarPopup"></div>')
-                    .text("Test calendarPopup")
+                // $('<div class="calendarPopup"></div>')
+                //     .text("Test calendarPopup")
+                let popupURL: string = chrome.runtime.getURL('hover_popup.html');
+                let dateText: string = $(e.target).text();
+                $("<iframe class='calendarPopup' src='" + popupURL + '?date=' + encodeURIComponent(dateText) +
+                    "' height='354.375' width='280'></iframe>")
                     .appendTo("body")
                     .fadeIn("slow")
                     .css({top: y+OFFSET_Y+"px", left: x+OFFSET_X+"px"});
@@ -67,7 +71,7 @@ function addHover(): void {
     });
 
     $(".calendarPopup").hover(function() {
-        console.log("HERE");
+        // console.log("HERE");
         window.clearTimeout(popupTimeout);
     }, function() {
         if (removePopup) {
@@ -77,9 +81,14 @@ function addHover(): void {
         }
     });
 
-    $(".calendarPopup").click(function() {
+    $('.calendarPopup').on('click', '*', function() {
+        console.log("CLICK");
         removePopup = false;
     });
+
+    // $(".calendarPopup").click(function() {
+    //     removePopup = false;
+    // });
 
     $(document).click(function(event) {
         if (!$(event.target).closest('.calendarPopup').length) {
