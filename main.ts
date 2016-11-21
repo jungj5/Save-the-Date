@@ -49,12 +49,29 @@ function addHover(): void {
                 // Create the iframe for the popup box
                 let popupURL: string = chrome.runtime.getURL('hover_popup.html');
                 let dateText: string = $(e.target).text();
-                let parsedText: string = chrono.parseDate(dateText).toString();
-                $("<iframe id='calPopup' class='calendarPopup' src='" + popupURL + '?date=' + encodeURIComponent(parsedText) +
-                    "' height='354.375' width='280'></iframe>")
-                    .appendTo("body")
-                    .fadeIn("slow")
-                    .css({top: y+OFFSET_Y+"px", left: x+OFFSET_X+"px"});
+                let parsedText: any = chrono.parse(dateText);
+                /*for (var i = 0; i < parsedText.length; i++) {
+                  console.log(parsedText[i]);
+
+                }*/
+                //console.log(parsedText[0].start.date());
+                //console.log(parsedText[0].end);
+
+                if (parsedText[0].end == undefined) {
+                  $("<iframe id='calPopup' class='calendarPopup' src='" + popupURL + '?date=' + encodeURIComponent(parsedText[0].start.date()) +
+                      "' height='354.375' width='280'></iframe>")
+                      .appendTo("body")
+                      .fadeIn("slow")
+                      .css({top: y+OFFSET_Y+"px", left: x+OFFSET_X+"px"});
+                      console.log(parsedText[0].start.date());
+                }
+                else{
+                  $("<iframe id='calPopup' class='calendarPopup' src='" + popupURL + '?date=' + encodeURIComponent(parsedText[0].start.date()) + encodeURIComponent(parsedText[0].end.date()) + "' height='354.375' width='280'></iframe>")
+                  .appendTo("body")
+                  .fadeIn("slow")
+                  .css({top: y+OFFSET_Y+"px", left: x+OFFSET_X+"px"});
+                }
+
             }, 350);
 
     // Hover out code
