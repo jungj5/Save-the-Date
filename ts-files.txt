@@ -1,6 +1,4 @@
 background.ts
-create_event_test.ts
-gcalApi.ts
 main.ts
 marker.ts
 parser.ts
