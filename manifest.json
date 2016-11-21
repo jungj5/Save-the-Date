@@ -43,7 +43,7 @@
   },
 
   "web_accessible_resources": [
-    "popup.html",
+    "hover_popup.html",
     "css/materialize.css",
     "node_modules/jquery/dist/jquery.min.js"
   ],
