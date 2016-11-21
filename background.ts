@@ -4,8 +4,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
 var events;
 var gapi;
+let maxEvents;
 
 function main() {
+    maxEvents = 2;
+    
   //oauth2 auth
   chrome.identity.getAuthToken({ 'interactive': true }, function () {
       //load Google's javascript client libraries
@@ -39,6 +42,18 @@ function main() {
   }
 
   document.getElementById("Create").addEventListener("click", createEvents);
+  document.getElementById("toggle-body-icon").addEventListener("click", setMaxEvents);
+  document.getElementById("toggle-body-icon").addEventListener("click", loadEvents);
+}
+
+function setMaxEvents(){
+    console.log('Entered setMaxEvents')
+    if(maxEvents == 2)
+        maxEvents = 30;
+    else
+         maxEvents = 2;
+    document.getElementById('agenda').innerHTML = "<a href=http://www.google.com/calendar>Calendar</a>";
+       
 }
 
 //function to load upcoming events from the user's calendar
@@ -53,26 +68,32 @@ function loadEvents(){
           'orderBy': 'startTime'
         }
     );
-
     displayRequest.execute(function(resp)
         {
             events = resp.items;
+                
             if (events.length > 0) { //display next 5 events if they exist
-                display('Upcoming events:');
-                for (var i = 0; i < events.length && i < 5; i++) {
+                for (var i = 0; i < events.length && i < maxEvents; i++) {
                     var event = events[i];
                     var when = event.start.dateTime;
                     if (!when) {
                         when = event.start.date;
                     }
-                    display(event.summary + ' (' + when + ')')
+                    var summary = event.summary;
+                    if(summary == undefined)
+                        summary = "(No title)"
+                    var date =  when.slice(0 ,when.indexOf('T'));
+                    var time = when.slice(when.indexOf('T') + 1, when.slice(when.indexOf('T')).indexOf('-') + when.indexOf('T'))
+                    display(summary + '\n' + date + "\n" + time);
                 }
             }
             else {
-                display('No upcoming events found.');
+                display('No events.');
             }
         }
     );
+    
+    //document.getElementById('agenda').innerHTML = "<a href=http://www.google.com/calendar>Calendar</a>";
 }
 
 //function to add an event to the user's calendar
@@ -162,7 +183,6 @@ function createEvents() {
         'resource': event
     });
     request.execute(function (event) {
-        display('Event created: ' + event.htmlLink);
     });
 }
 
@@ -171,7 +191,7 @@ function createEvents() {
 function display(message) {
     var pre = document.getElementById('agenda');
     var textContent = document.createTextNode(message + '\n');
-    pre.appendChild(textContent);
+    pre.innerHTML = pre.innerHTML + "<div class= card-panel new-event>" + message + "</div>";
 }
 
 // Sends events to main.js to be handled by content scripts
