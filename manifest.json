@@ -32,7 +32,8 @@
         "node_modules/chrono-node/chrono.min.js",
         "parser.js",
         "marker.js",
-        "main.js"
+        "main.js",
+        "js/popup.js"
       ],
       "run_at": "document_end"
     }

@@ -1,3 +1,4 @@
+
 $('#toggle-body').click(function() {
     let newWidth: string = '500px';
     if ($('body').width() == 500) {
@@ -34,3 +35,32 @@ $('.timepicker').timepicker({
     dynamic: false,
     startTime: '12:00'
 });
+
+//#########################Auto-fill implementation###########################
+function formatAMPM(date) {
+  var hours = date.getHours();
+  var minutes = date.getMinutes();
+  var ampm = hours >= 12 ? 'PM' : 'AM';
+  hours = hours % 12;
+  hours = hours ? hours : 12; // the hour '0' should be '12'
+  minutes = minutes < 10 ? '0'+minutes : minutes;
+  var strTime = hours + ':' + minutes + ' ' + ampm;
+  return strTime;
+}
+
+var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+];
+
+var word = decodeURIComponent(window.location.search.substring(window.location.search.indexOf('date=')));
+word = word.slice(5, word.length);
+var d = new Date(word);
+
+
+//Nov 1, 2016
+//12:00 PM
+//Only autofill date if using iFrame hover instead of browser action button.
+if (document.URL.indexOf('hover') != -1){
+  $('#start_date').val(monthNames[d.getMonth()] + " " + d.getDate() + ", " + d.getFullYear());
+  $('#timepicker1').val(formatAMPM(d));
+}

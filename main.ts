@@ -54,23 +54,16 @@ function addHover(): void {
                 //     .text("Test calendarPopup")
                 let popupURL: string = chrome.runtime.getURL('hover_popup.html');
                 let dateText: string = $(e.target).text();
-                $("<iframe class='calendarPopup' src='" + popupURL + '?date=' + encodeURIComponent(dateText) +
+                let parsedText: string = chrono.parseDate(dateText).toString();
+                $("<iframe id='calPopup' class='calendarPopup' src='" + popupURL + '?date=' + encodeURIComponent(parsedText) +
                     "' height='354.375' width='280'></iframe>")
                     .appendTo("body")
                     .fadeIn("slow")
                     .css({top: y+OFFSET_Y+"px", left: x+OFFSET_X+"px"});
             }, 350);
+
         }
 
-        // Set up popup iframe
-        let popupURL: string = chrome.runtime.getURL('hover_popup.html');
-        let dateText: string = $(e.target).text();
-        $("<iframe id='calPopup' class='calendarPopup' src='" + popupURL + '?date=' + encodeURIComponent(dateText) +
-            "' height='354.375' width='280'></iframe>")
-            .appendTo("body")
-            .fadeIn("slow")
-            .css({top: y+20+"px", left: x+20+"px"});
-            
     }, function() {
         // Hover out code
         window.clearTimeout(timeout);
@@ -123,8 +116,6 @@ $(document).ready(function(): void {
     // test.setMonth(test.getMonth() + 7);
     // console.log("Date = " + test);
     // ----------------------------------
-
-
     // Wait until the calendar events are received from the
     //  GCal class
     chrome.runtime.onMessage.addListener(
