@@ -41,8 +41,8 @@ function main() {
           gapi.client.load('calendar', 'v3', loadEvents);
       });
   }
-
-  document.getElementById("Create").addEventListener("click", createEvents);
+  console.log("Setting up click event");
+  document.getElementById("Create").addEventListener("click", createEventsBrowserAction);
   document.getElementById("toggle-body-icon").addEventListener("click", setMaxEvents);
   document.getElementById("toggle-body-icon").addEventListener("click", loadEvents);
 }
@@ -97,16 +97,37 @@ function loadEvents(){
     //document.getElementById('agenda').innerHTML = "<a href=http://www.google.com/calendar>Calendar</a>";
 }
 
+function createEventsBrowserAction(): void {
+    let summary: string = $("#event_title_input").val();
+    let location: string = $("#location_input").val();
+    let startDate: string = $("#start_date").val();
+    let endDate: string = $("#end_date").val();
+    let description: string = $("#textarea1").val();
+    let startTime: string = $("#timepicker1").val();
+    let endTime: string = $("#timepicker2").val();
+
+    createEvents(summary, location, startDate, endDate, description, startTime, endTime);
+}
+
 //function to add an event to the user's calendar
-function createEvents() {
-    var Event_Summary = $("#event_title_input").val();
-    var Event_Location = $("#location_input").val();
-    var Event_Start_Date = $("#start_date").val();
-    var Event_End_Date = $("#end_date").val();
-    var Event_Description = $("#textarea1").val();
+function createEvents(eventSummary: string, eventLocation: string, eventStartDate: string, eventEndDate: string, eventDescription: string, startTime: string, endTime: string): void {
+    
+    // DEBUGGING ---------------------------------------
+    // console.log("Entered createEvents");
+    // var eventSummary = $("#event_title_input").val();
+    // var eventLocation = $("#location_input").val();
+    // var eventStartDate = $("#start_date").val();
+    // var eventEndDate = $("#end_date").val();
+    // var eventDescription = $("#textarea1").val();
+    // console.log(eventSummary);
+    // console.log(eventLocation);
+    // console.log(eventStartDate);
+    // console.log(eventEndDate);
+    // console.log(eventDescription);
+    // -------------------------------------------------
 
     //Nov 1, 2016
-    var Months = {
+    var months = {
         'Jan': '01',
         'Feb': '02',
         'Mar': '03',
@@ -122,60 +143,67 @@ function createEvents() {
     };
 
     //format dates to work with Google Calendar API
-    var startDay = Event_Start_Date.slice(Event_Start_Date.indexOf(' ') + 1 ,Event_Start_Date.indexOf(','));
-    var endDay = Event_End_Date.slice(Event_End_Date.indexOf(' ') + 1 ,Event_End_Date.indexOf(','));
+    var startDay = eventStartDate.slice(eventStartDate.indexOf(' ') + 1 ,eventStartDate.indexOf(','));
+    var endDay = eventEndDate.slice(eventEndDate.indexOf(' ') + 1 ,eventEndDate.indexOf(','));
     if(startDay.len == 1)
         startDay = "0" + startDay
     if(endDay.len == 1)
         endDay = "0" + endDay
 
-    var Event_Start_Date = Event_Start_Date.slice(-4) + "-" + Months[Event_Start_Date.slice(0, 3)] + "-" + startDay;
-    var Event_End_Date = Event_End_Date.slice(-4) + "-" + Months[Event_End_Date.slice(0, 3)] + "-" + endDay;
+    var eventStartDate = eventStartDate.slice(-4) + "-" + months[eventStartDate.slice(0, 3)] + "-" + startDay;
+    var eventEndDate = eventEndDate.slice(-4) + "-" + months[eventEndDate.slice(0, 3)] + "-" + endDay;
 
-    var start_time = $("#timepicker1").val().slice(0, -3);
-    var end_time = $("#timepicker2").val().slice(0, -3);
-
+    if (startTime.len == 7) {
+      startTime = '0' + startTime;
+    }
+    var finalStartTime = startTime.slice(0, -3);
+    var finalEndTime = endTime.slice(0, -3);
 
     //Case handles 12:xx AM
-    if ($("#timepicker1").val().slice(-2) == "AM") {
-      if (start_time[0] + start_time[1] == "12") {
-        start_time = "00" + start_time.slice(-3);
+    if (startTime.slice(-2) == "AM") {
+      if (finalStartTime[0] + finalStartTime[1] == "12") {
+        finalStartTime = "00" + finalStartTime.slice(-3);
       }
     }
-    if ($("#timepicker2").val().slice(-2) == "AM") {
-      if (end_time[0] + end_time[1] == "12") {
-        end_time = "00" + end_time.slice(-3);
+    if (endTime.slice(-2) == "AM") {
+      if (finalEndTime[0] + finalEndTime[1] == "12") {
+        finalEndTime = "00" + finalEndTime.slice(-3);
       }
     }
 
     //Case handles converting PM times
-    if ($("#timepicker1").val().slice(-2) == "PM") {
-      if (start_time[0] + start_time[1] != "12") {
-        var hour = start_time[0] + start_time[1]
+    if (startTime.slice(-2) == "PM") {
+      if (finalStartTime[0] + finalStartTime[1] != "12") {
+        var hour = finalStartTime[0] + finalStartTime[1]
         hour = parseInt(hour) + 12;
         hour = hour.toString();
-        start_time = hour + start_time.slice(2);
+        console.log(finalStartTime.slice(2));
+        finalStartTime = hour + finalStartTime.slice(2);
       }
     }
-    if ($("#timepicker2").val().slice(-2) == "PM") {
-      if (end_time[0] + end_time[1] != "12") {
-        var hour = end_time[0] + end_time[1]
+    if (endTime.slice(-2) == "PM") {
+      if (finalEndTime[0] + finalEndTime[1] != "12") {
+        var hour = finalEndTime[0] + finalEndTime[1]
         hour = parseInt(hour) + 12;
         hour = hour.toString();
-        end_time = hour + end_time.slice(2);
+        console.log(finalEndTime.slice(2));
+        finalEndTime = hour + finalEndTime.slice(2);
       }
     }
 
+    // console.log(finalStartTime);
+    // console.log(finalEndTime);
+
     var event = {
-        'summary': Event_Summary,
-        'location': Event_Location,
-        'description': Event_Description,
+        'summary': eventSummary,
+        'location': eventLocation,
+        'description': eventDescription,
         'start': {
-            'dateTime': Event_Start_Date + 'T' + start_time + ':00',
+            'dateTime': eventStartDate + 'T' + finalStartTime + ':00',
             'timeZone': 'America/New_York'
         },
         'end': {
-            'dateTime': Event_End_Date + 'T' + end_time + ':00',
+            'dateTime': eventEndDate + 'T' + finalEndTime + ':00',
             'timeZone': 'America/New_York'
         }
     };
@@ -210,5 +238,6 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
 })
 
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-  console.log(request);
+  // console.log(request);
+  createEvents(request["summary"], request["location"], request["startDate"], request["endDate"], request["description"], request["startTime"], request["endTime"]);
 })

@@ -43,15 +43,22 @@ $('#Create').click(function() {
     var Event_Start_Date = $("#start_date").val();
     var Event_End_Date = $("#end_date").val();
     var Event_Description = $("#textarea1").val();
+    let eventStartTime: string = $("#timepicker1").val();
+    let eventEndTime: string = $("#timepicker2").val();
     let message = {
         summary: Event_Summary,
         location: Event_Location,
         startDate: Event_Start_Date,
         endDate: Event_End_Date,
-        description: Event_Description
+        description: Event_Description,
+        startTime: eventStartTime,
+        endTime: eventEndTime
     };
-    parent.postMessage(message, '*');
+    chrome.runtime.sendMessage(message);
+
 })
+
+
 // =======
 //#########################Auto-fill implementation###########################
 function formatAMPM(date) {
