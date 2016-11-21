@@ -98,6 +98,12 @@ function addHover(): void {
     });
 }
 
+window.addEventListener("message", function(e) {
+    if (~e.origin.indexOf('chrome-extension://ffbkhfdogibacpoolmejliccgfnafiba')) {
+        console.log(e);
+    }
+});
+
 
 // -------------
 // Main Function

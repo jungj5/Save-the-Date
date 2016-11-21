@@ -34,3 +34,19 @@ $('.timepicker').timepicker({
     dynamic: false,
     startTime: '12:00'
 });
+
+$('#Create').click(function() {
+    var Event_Summary = $("#event_title_input").val();
+    var Event_Location = $("#location_input").val();
+    var Event_Start_Date = $("#start_date").val();
+    var Event_End_Date = $("#end_date").val();
+    var Event_Description = $("#textarea1").val();
+    let message = {
+        summary: Event_Summary,
+        location: Event_Location,
+        startDate: Event_Start_Date,
+        endDate: Event_End_Date,
+        description: Event_Description
+    };
+    parent.postMessage(message, '*');
+})
