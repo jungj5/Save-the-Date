@@ -14,7 +14,7 @@
         "noLib": false,
         "preserveConstEnums": true,
         "suppressImplicitAnyIndexErrors": true,
-        "types": ["chrome", "jquery", "chrono-node", "materialize-css", "pickadate", "jquery.timepicker"]
+        "types": ["chrome", "jquery", "chrono-node", "materialize-css", "pickadate"]
     },
     "exclude": [
         "node_modules",
