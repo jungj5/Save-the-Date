@@ -35,7 +35,6 @@ function addHover(): void {
     $(".greenText, .yellowText, .redText").unbind("mouseenter mouseleave");
 
     let timeout: number;
-    let removePopup: boolean = true;
     let popupTimeout: number;
 
     $(".greenText, .yellowText, .redText").hover(function(e) {
@@ -43,87 +42,69 @@ function addHover(): void {
         let x: number = e.clientX;
         let y: number = e.clientY;
 
-        // DEBUGGING --------------------
-        // console.log("X: " + x);
-        // console.log("Y: " + y);
-        // ------------------------------
-
-        if (removePopup) {
+            // Set a timer so that the popup box only appears
+            //  if the user hovers over the highlighted text
+            //  for 350 milliseconds
             timeout = window.setTimeout(function() {
-                // $('<div class="calendarPopup"></div>')
-                //     .text("Test calendarPopup")
+                // Create the iframe for the popup box
                 let popupURL: string = chrome.runtime.getURL('hover_popup.html');
                 let dateText: string = $(e.target).text();
-                let parsedText: string = chrono.parseDate(dateText).toString();
-                $("<iframe id='calPopup' class='calendarPopup' src='" + popupURL + '?date=' + encodeURIComponent(parsedText) +
-                    "' height='354.375' width='280'></iframe>")
-                    .appendTo("body")
-                    .fadeIn("slow")
-                    .css({top: y+OFFSET_Y+"px", left: x+OFFSET_X+"px"});
+                let parsedText: any = chrono.parse(dateText);
+                /*for (var i = 0; i < parsedText.length; i++) {
+                  console.log(parsedText[i]);
+
+                }*/
+                //console.log(parsedText[0].start.date());
+                //console.log(parsedText[0].end);
+
+                if (parsedText[0].end == undefined) {
+                  $("<iframe id='calPopup' class='calendarPopup' src='" + popupURL + '?date=' + encodeURIComponent(parsedText[0].start.date()) +
+                      "' height='354.375' width='280'></iframe>")
+                      .appendTo("body")
+                      .fadeIn("slow")
+                      .css({top: y+OFFSET_Y+"px", left: x+OFFSET_X+"px"});
+                      console.log(parsedText[0].start.date());
+                }
+                else{
+                  $("<iframe id='calPopup' class='calendarPopup' src='" + popupURL + '?date=' + encodeURIComponent(parsedText[0].start.date()) + encodeURIComponent(parsedText[0].end.date()) + "' height='354.375' width='280'></iframe>")
+                  .appendTo("body")
+                  .fadeIn("slow")
+                  .css({top: y+OFFSET_Y+"px", left: x+OFFSET_X+"px"});
+                }
+
             }, 350);
 
-        }
-
+    // Hover out code
     }, function() {
-        // Hover out code
+        // Remove the timer
         window.clearTimeout(timeout);
+        // Remove the popup box 500 milliseconds after
+        //  the cursor leaves the highlighted text
         popupTimeout = window.setTimeout(function() {
             $('.calendarPopup').remove();
         }, 500);
     });
 
+    // Keep the popup box on the screen as long as the
+    //  cursor is in the popup box
     $(".calendarPopup").hover(function() {
-        // console.log("HERE");
         window.clearTimeout(popupTimeout);
     }, function() {
-        if (removePopup) {
             popupTimeout = window.setTimeout(function() {
                 $('.calendarPopup').remove();
             }, 500);
-        }
-    });
-
-    $('.calendarPopup').on('click', '*', function() {
-        console.log("CLICK");
-        removePopup = false;
-    });
-
-    // $(".calendarPopup").click(function() {
-    //     removePopup = false;
-    // });
-
-    $(document).click(function(event) {
-        if (!$(event.target).closest('.calendarPopup').length) {
-            $('.calendarPopup').remove();
-            removePopup = true;
-        }
     });
 }
 
-window.addEventListener("message", function(e) {
-    // let originURL: string = chrome.runtime.getURL('js/popup.js');
-    if (~e.origin.indexOf('chrome-extension://ffbkhfdogibacpoolmejliccgfnafiba')) {
-        console.log(e);
-        chrome.runtime.sendMessage(e.data);
-    }
-});
-
-
-// Function that sets up observers and reparses the
-//  page every time there is a change
 
 // -------------
 // Main Function
 // -------------
+
+// Function that sets up observers and reparses the
+//  page every time there is a change
 $(document).ready(function(): void {
 
-    // DEBUGGING ------------------------
-    // console.log(chrono.parseDate("'16"));
-    // console.log("HERE");
-    // let test = new Date();
-    // test.setMonth(test.getMonth() + 7);
-    // console.log("Date = " + test);
-    // ----------------------------------
     // Wait until the calendar events are received from the
     //  GCal class
     chrome.runtime.onMessage.addListener(

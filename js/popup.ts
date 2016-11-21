@@ -36,23 +36,27 @@ $('.timepicker').timepicker({
     startTime: '12:00'
 });
 
-// <<<<<<< HEAD
 $('#Create').click(function() {
     var Event_Summary = $("#event_title_input").val();
     var Event_Location = $("#location_input").val();
     var Event_Start_Date = $("#start_date").val();
     var Event_End_Date = $("#end_date").val();
     var Event_Description = $("#textarea1").val();
+    let eventStartTime: string = $("#timepicker1").val();
+    let eventEndTime: string = $("#timepicker2").val();
     let message = {
         summary: Event_Summary,
         location: Event_Location,
         startDate: Event_Start_Date,
         endDate: Event_End_Date,
-        description: Event_Description
+        description: Event_Description,
+        startTime: eventStartTime,
+        endTime: eventEndTime
     };
-    parent.postMessage(message, '*');
+    chrome.runtime.sendMessage(message);
+
 })
-// =======
+
 //#########################Auto-fill implementation###########################
 function formatAMPM(date) {
   var hours = date.getHours();
@@ -71,14 +75,54 @@ var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
 
 var word = decodeURIComponent(window.location.search.substring(window.location.search.indexOf('date=')));
 word = word.slice(5, word.length);
-var d = new Date(word);
+if (word.length == 39){
+  var d = new Date(word);
+  if (document.URL.indexOf('hover') != -1){
+    $('#start_date').val(monthNames[d.getMonth()] + " " + d.getDate() + ", " + d.getFullYear());
+    if (formatAMPM(d).indexOf(":") == 1){
+      $('#timepicker1').val("0" + formatAMPM(d));
+    }
+    else{
+      $('#timepicker1').val(formatAMPM(d));
+    }
+
+    //Default duration of event if no end time given = 1 hour
+    if ($('#timepicker1').val().slice(0, 2) == "12") {
+      var end_time = "01:" + $('#timepicker1').val().slice(-5, -3);
+      if ($('#timepicker1').val().slice(-2) == "PM") {
+        end_time = end_time + " PM";
+        $('#timepicker2').val(end_time);
+        $('#end_date').val(monthNames[d.getMonth()] + " " + d.getDate() + ", " + d.getFullYear());
+      }
+      else {
+        end_time = end_time + " AM";
+        $('#timepicker2').val(end_time);
+        $('#end_date').val(monthNames[d.getMonth()] + " " + d.getDate() + ", " + d.getFullYear());
+      }
+    }
+    else {
+      var start_hour = $('#timepicker1').val().slice(0, 2);
+      var start_hour = parseInt(start_hour);
+      if (start_hour.toString().length == 2) {
+        start_hour = start_hour + 1;
+        var end_hour = start_hour.toString();
+        var end_time = end_hour + $('#timepicker1').val().slice(-5, -3) + $('#timepicker1').val().slice(-2);
+        $('#timepicker2').val(end_time);
+        $('#end_date').val(monthNames[d.getMonth()] + " " + d.getDate() + ", " + d.getFullYear());
+      }
+      else{
+        start_hour = start_hour + 1;
+        var end_hour = "0" + start_hour.toString() + ":";
+        var end_time = end_hour + $('#timepicker1').val().slice(-5, -3) + " " + $('#timepicker1').val().slice(-2);
+        $('#timepicker2').val(end_time);
+        $('#end_date').val(monthNames[d.getMonth()] + " " + d.getDate() + ", " + d.getFullYear());
+      }
+
+    }
+  }
+}
 
 
 //Nov 1, 2016
 //12:00 PM
 //Only autofill date if using iFrame hover instead of browser action button.
-if (document.URL.indexOf('hover') != -1){
-  $('#start_date').val(monthNames[d.getMonth()] + " " + d.getDate() + ", " + d.getFullYear());
-  $('#timepicker1').val(formatAMPM(d));
-}
-// >>>>>>> 853f36f6039d4436813493c2f6d831cc1cc42f44

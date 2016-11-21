@@ -39,7 +39,7 @@
     }
   ],
   "background": {
-    "scripts": ["background.js"],
+    "scripts": ["node_modules/jquery/dist/jquery.min.js", "background.js"],
     "persistent": false
   },
 
