@@ -33,7 +33,7 @@ function main() {
 
   function authorize() {
       gapi.auth.authorize({
-          client_id: '223210400436-gflvl7h6pig37rgvb60o5rbkjuulqhot.apps.googleusercontent.com',
+          client_id: '955471480917-2n5jm56c3uucharlj9njl17kbmg72r5h.apps.googleusercontent.com',
 
           immediate: true,
           scope: 'https://www.googleapis.com/auth/calendar'
@@ -207,4 +207,8 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
       });
     });
   }
+})
+
+chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+  console.log(request);
 })

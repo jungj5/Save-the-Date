@@ -101,8 +101,10 @@ function addHover(): void {
 }
 
 window.addEventListener("message", function(e) {
+    // let originURL: string = chrome.runtime.getURL('js/popup.js');
     if (~e.origin.indexOf('chrome-extension://ffbkhfdogibacpoolmejliccgfnafiba')) {
         console.log(e);
+        chrome.runtime.sendMessage(e.data);
     }
 });
 
