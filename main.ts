@@ -16,13 +16,14 @@ interface ObserverConfig {
 function addHover(): void {
     $(".greenText, .yellowText, .redText").unbind("mouseenter mouseleave");
     $(".greenText, .yellowText, .redText").hover(function(e) {
-        console.log("First");
         let x: number = e.clientX;
         let y: number = e.clientY;
 
         // Set up popup iframe
-        let popupURL: string = chrome.runtime.getURL('popup.html');
-        $("<iframe class='calendarPopup' src='" + popupURL + '?date=' + encodeURIComponent('') + "'></iframe>")
+        let popupURL: string = chrome.runtime.getURL('hover_popup.html');
+        let dateText: string = $(e.target).text();
+        $("<iframe class='calendarPopup' src='" + popupURL + '?date=' + encodeURIComponent(dateText) +
+            "' height='354.375' width='280'></iframe>")
             .appendTo("body")
             .fadeIn("slow")
             .css({top: y+20+"px", left: x+20+"px"});
