@@ -22,7 +22,7 @@ function addHover(): void {
         // Set up popup iframe
         let popupURL: string = chrome.runtime.getURL('hover_popup.html');
         let dateText: string = $(e.target).text();
-        $("<iframe class='calendarPopup' src='" + popupURL + '?date=' + encodeURIComponent(dateText) +
+        $("<iframe id='calPopup' class='calendarPopup' src='" + popupURL + '?date=' + encodeURIComponent(dateText) +
             "' height='354.375' width='280'></iframe>")
             .appendTo("body")
             .fadeIn("slow")
@@ -32,6 +32,7 @@ function addHover(): void {
         $('.calendarPopup').remove();
     });
 }
+
 
 // Function that sets up observers and reparses the
 //  page every time there is a change
