@@ -36,26 +36,32 @@ $('.timepicker').timepicker({
     startTime: '12:00'
 });
 
-$('#Create').click(function() {
-    var Event_Summary = $("#event_title_input").val();
-    var Event_Location = $("#location_input").val();
-    var Event_Start_Date = $("#start_date").val();
-    var Event_End_Date = $("#end_date").val();
-    var Event_Description = $("#textarea1").val();
-    let eventStartTime: string = $("#timepicker1").val();
-    let eventEndTime: string = $("#timepicker2").val();
-    let message = {
-        summary: Event_Summary,
-        location: Event_Location,
-        startDate: Event_Start_Date,
-        endDate: Event_End_Date,
-        description: Event_Description,
-        startTime: eventStartTime,
-        endTime: eventEndTime
-    };
-    chrome.runtime.sendMessage(message);
+// If the popup is being displayed in an iFrame,
+// gets the date and time from the corresponding elements and
+// sends them to the background script.
+if (document.URL.indexOf('hover') != -1){
+    $('#Create').click(function() {
+        const Event_Summary = $("#event_title_input").val();
+        const Event_Location = $("#location_input").val();
+        const Event_Start_Date = $("#start_date").val();
+        const Event_End_Date = $("#end_date").val();
+        const Event_Description = $("#textarea1").val();
+        const eventStartTime: string = $("#timepicker1").val();
+        const eventEndTime: string = $("#timepicker2").val();
+        const message = {
+            summary: Event_Summary,
+            location: Event_Location,
+            startDate: Event_Start_Date,
+            endDate: Event_End_Date,
+            description: Event_Description,
+            startTime: eventStartTime,
+            endTime: eventEndTime
+        };
+    
+        chrome.runtime.sendMessage(message);
 
-})
+    })
+}
 
 //#########################Auto-fill implementation###########################
 function formatAMPM(date) {
