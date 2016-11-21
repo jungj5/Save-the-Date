@@ -43,29 +43,6 @@ class ChronoParser {
         this.parser = new chrono.Chrono();
         this.events = events;
 
-        // DEBUG --------------------------------
-        // Custom parser to recorgnize shortened year (i.e. '17)
-        // let shortenedYearParser = new chrono.Parser();
-        // shortenedYearParser.pattern = function() {
-        //     return /Mar. 3 '19/i;
-        // }
-        // shortenedYearParser.extract = function(text, ref, match, opt) {
-        //     console.log("matched text = " + match[0]);
-        //     let matchedText: string = match[0];
-        //     let fullYear: number = parseInt("20" + matchedText.substring(1,3));
-        //     return new chrono.ParsedResult({
-        //         ref: ref,
-        //         text: match[0],
-        //         index: match.index,
-        //         start: {
-        //             year: fullYear
-        //         }
-        //     });
-        // }
-        // this.parser.parsers.push(shortenedYearParser);
-        // console.log(this.parser.parseDate("Mar. 3 '19 at 2:30pm"));
-        // --------------------------------------
-
         // Custom refiner to filter out events that do not
         //  contain enough information to be useful
         let parserRefiner = new chrono.Refiner();
