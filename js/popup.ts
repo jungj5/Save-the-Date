@@ -75,7 +75,7 @@ var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
 
 var word = decodeURIComponent(window.location.search.substring(window.location.search.indexOf('date=')));
 word = word.slice(5, word.length);
-if (word.length == 39){
+if (word.indexOf("(") == 34){
   var d = new Date(word);
   if (document.URL.indexOf('hover') != -1){
     $('#start_date').val(monthNames[d.getMonth()] + " " + d.getDate() + ", " + d.getFullYear());
@@ -112,7 +112,12 @@ if (word.length == 39){
       }
       else{
         start_hour = start_hour + 1;
-        var end_hour = "0" + start_hour.toString() + ":";
+        if (start_hour == 10) {
+          var end_hour = start_hour.toString() + ":";
+        }
+        else{
+          var end_hour = "0" + start_hour.toString() + ":";
+        }
         var end_time = end_hour + $('#timepicker1').val().slice(-5, -3) + " " + $('#timepicker1').val().slice(-2);
         $('#timepicker2').val(end_time);
         $('#end_date').val(monthNames[d.getMonth()] + " " + d.getDate() + ", " + d.getFullYear());
