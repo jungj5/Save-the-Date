@@ -65,7 +65,6 @@ function loadEvents(){
           'timeMin': (new Date()).toISOString(),
           'showDeleted': false,
           'singleEvents': true,
-          'maxResults': 10,
           'orderBy': 'startTime'
         }
     );
@@ -119,11 +118,11 @@ function createEvents(eventSummary: string, eventLocation: string, eventStartDat
     // var eventStartDate = $("#start_date").val();
     // var eventEndDate = $("#end_date").val();
     // var eventDescription = $("#textarea1").val();
-    // console.log(eventSummary);
-    // console.log(eventLocation);
-    // console.log(eventStartDate);
-    // console.log(eventEndDate);
-    // console.log(eventDescription);
+    console.log(eventSummary);
+    console.log(eventLocation);
+    console.log(eventStartDate);
+    console.log(eventEndDate);
+    console.log(eventDescription);
     // -------------------------------------------------
 
     //Nov 1, 2016
@@ -145,15 +144,15 @@ function createEvents(eventSummary: string, eventLocation: string, eventStartDat
     //format dates to work with Google Calendar API
     var startDay = eventStartDate.slice(eventStartDate.indexOf(' ') + 1 ,eventStartDate.indexOf(','));
     var endDay = eventEndDate.slice(eventEndDate.indexOf(' ') + 1 ,eventEndDate.indexOf(','));
-    if(startDay.len == 1)
+    if(startDay.length == 1)
         startDay = "0" + startDay
-    if(endDay.len == 1)
+    if(endDay.length == 1)
         endDay = "0" + endDay
 
     var eventStartDate = eventStartDate.slice(-4) + "-" + months[eventStartDate.slice(0, 3)] + "-" + startDay;
     var eventEndDate = eventEndDate.slice(-4) + "-" + months[eventEndDate.slice(0, 3)] + "-" + endDay;
 
-    if (startTime.len == 7) {
+    if (startTime.length == 7) {
       startTime = '0' + startTime;
     }
     var finalStartTime = startTime.slice(0, -3);
@@ -191,8 +190,8 @@ function createEvents(eventSummary: string, eventLocation: string, eventStartDat
       }
     }
 
-    // console.log(finalStartTime);
-    // console.log(finalEndTime);
+    console.log(finalStartTime);
+    console.log(finalEndTime);
 
     var event = {
         'summary': eventSummary,
@@ -238,6 +237,6 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
 })
 
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-  // console.log(request);
+  console.log(request);
   createEvents(request["summary"], request["location"], request["startDate"], request["endDate"], request["description"], request["startTime"], request["endTime"]);
 })
