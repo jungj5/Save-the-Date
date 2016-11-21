@@ -30,7 +30,7 @@ function main() {
 
   function authorize() {
       gapi.auth.authorize({
-          client_id: '955471480917-2n5jm56c3uucharlj9njl17kbmg72r5h.apps.googleusercontent.com',
+          client_id: '25542497210-94g14jpjos5tmvl0nlg9q3tmuhanu5q6.apps.googleusercontent.com',
           immediate: true,
           scope: 'https://www.googleapis.com/auth/calendar'
       }, function () {
@@ -100,29 +100,29 @@ function createEvents() {
     };
 
     //format dates to work with Google Calendar API
-    var Event_Start_Date = Event_Start_Date.slice(-4) + "-" + Months[Event_Start_Date.slice(0, 3)] + "-" + Event_Start_Date.slice(4, 5);
-    var Event_End_Date = Event_End_Date.slice(-4) + "-" + Months[Event_End_Date.slice(0, 3)] + "-" + Event_End_Date.slice(4, 5);
+    var startDay = Event_Start_Date.slice(Event_Start_Date.indexOf(' ') + 1 ,Event_Start_Date.indexOf(','));
+    var endDay = Event_End_Date.slice(Event_End_Date.indexOf(' ') + 1 ,Event_End_Date.indexOf(','));
+    if(startDay.len == 1)
+        startDay = "0" + startDay
+    if(endDay.len == 1)
+        endDay = "0" + endDay
+
+    var Event_Start_Date = Event_Start_Date.slice(-4) + "-" + Months[Event_Start_Date.slice(0, 3)] + "-" + startDay;
+    var Event_End_Date = Event_End_Date.slice(-4) + "-" + Months[Event_End_Date.slice(0, 3)] + "-" + endDay;
 
     var start_time = $("#timepicker1").val().slice(0, -3);
     var end_time = $("#timepicker2").val().slice(0, -3);
 
+
     //Case handles 12:xx AM
     if ($("#timepicker1").val().slice(-2) == "AM") {
       if (start_time[0] + start_time[1] == "12") {
-
-        start_time = "00" + start_time.slice(2, -3);
-      }
-      else{
-        start_time = start_time.slice(-3);
+        start_time = "00" + start_time.slice(-3);
       }
     }
     if ($("#timepicker2").val().slice(-2) == "AM") {
       if (end_time[0] + end_time[1] == "12") {
-
-        end_time = "00" + end_time.slice(2, -3);
-      }
-      else{
-        end_time = end_time.slice(-3);
+        end_time = "00" + end_time.slice(-3);
       }
     }
 
