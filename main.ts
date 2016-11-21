@@ -33,7 +33,7 @@ interface ObserverConfig {
 function addHover(): void {
     // Remove any previous hover functionality
     $(".greenText, .yellowText, .redText").unbind("mouseenter mouseleave");
-    
+
     let timeout: number;
     let removePopup: boolean = true;
     let popupTimeout: number;
@@ -42,7 +42,7 @@ function addHover(): void {
         // Cursor coordinates
         let x: number = e.clientX;
         let y: number = e.clientY;
-        
+
         // DEBUGGING --------------------
         // console.log("X: " + x);
         // console.log("Y: " + y);
@@ -54,12 +54,14 @@ function addHover(): void {
                 //     .text("Test calendarPopup")
                 let popupURL: string = chrome.runtime.getURL('hover_popup.html');
                 let dateText: string = $(e.target).text();
-                $("<iframe class='calendarPopup' src='" + popupURL + '?date=' + encodeURIComponent(dateText) +
+                let parsedText: string = chrono.parseDate(dateText).toString();
+                $("<iframe id='calPopup' class='calendarPopup' src='" + popupURL + '?date=' + encodeURIComponent(parsedText) +
                     "' height='354.375' width='280'></iframe>")
                     .appendTo("body")
                     .fadeIn("slow")
                     .css({top: y+OFFSET_Y+"px", left: x+OFFSET_X+"px"});
             }, 350);
+
         }
 
     }, function() {
@@ -67,7 +69,7 @@ function addHover(): void {
         window.clearTimeout(timeout);
         popupTimeout = window.setTimeout(function() {
             $('.calendarPopup').remove();
-        }, 500);            
+        }, 500);
     });
 
     $(".calendarPopup").hover(function() {
@@ -105,10 +107,12 @@ window.addEventListener("message", function(e) {
 });
 
 
+// Function that sets up observers and reparses the
+//  page every time there is a change
+
 // -------------
 // Main Function
 // -------------
-
 $(document).ready(function(): void {
 
     // DEBUGGING ------------------------
@@ -118,9 +122,7 @@ $(document).ready(function(): void {
     // test.setMonth(test.getMonth() + 7);
     // console.log("Date = " + test);
     // ----------------------------------
-
-
-    // Wait until the calendar events are received from the 
+    // Wait until the calendar events are received from the
     //  GCal class
     chrome.runtime.onMessage.addListener(
       function(request, sender, sendResponse) {

@@ -4,8 +4,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
 var events;
 var gapi;
+let maxEvents;
 
 function main() {
+    maxEvents = 2;
+
   //oauth2 auth
   chrome.identity.getAuthToken({ 'interactive': true }, function () {
       //load Google's javascript client libraries
@@ -30,7 +33,8 @@ function main() {
 
   function authorize() {
       gapi.auth.authorize({
-          client_id: '955471480917-2n5jm56c3uucharlj9njl17kbmg72r5h.apps.googleusercontent.com',
+          client_id: '223210400436-gflvl7h6pig37rgvb60o5rbkjuulqhot.apps.googleusercontent.com',
+
           immediate: true,
           scope: 'https://www.googleapis.com/auth/calendar'
       }, function () {
@@ -39,6 +43,18 @@ function main() {
   }
 
   document.getElementById("Create").addEventListener("click", createEvents);
+  document.getElementById("toggle-body-icon").addEventListener("click", setMaxEvents);
+  document.getElementById("toggle-body-icon").addEventListener("click", loadEvents);
+}
+
+function setMaxEvents(){
+    console.log('Entered setMaxEvents')
+    if(maxEvents == 2)
+        maxEvents = 30;
+    else
+         maxEvents = 2;
+    document.getElementById('agenda').innerHTML = "<a href=http://www.google.com/calendar>Calendar</a>";
+
 }
 
 //function to load upcoming events from the user's calendar
@@ -53,26 +69,32 @@ function loadEvents(){
           'orderBy': 'startTime'
         }
     );
-
     displayRequest.execute(function(resp)
         {
             events = resp.items;
+
             if (events.length > 0) { //display next 5 events if they exist
-                display('Upcoming events:');
-                for (var i = 0; i < events.length && i < 5; i++) {
+                for (var i = 0; i < events.length && i < maxEvents; i++) {
                     var event = events[i];
                     var when = event.start.dateTime;
                     if (!when) {
                         when = event.start.date;
                     }
-                    display(event.summary + ' (' + when + ')')
+                    var summary = event.summary;
+                    if(summary == undefined)
+                        summary = "(No title)"
+                    var date =  when.slice(0 ,when.indexOf('T'));
+                    var time = when.slice(when.indexOf('T') + 1, when.slice(when.indexOf('T')).indexOf('-') + when.indexOf('T'))
+                    display(summary + '\n' + date + "\n" + time);
                 }
             }
             else {
-                display('No upcoming events found.');
+                display('No events.');
             }
         }
     );
+
+    //document.getElementById('agenda').innerHTML = "<a href=http://www.google.com/calendar>Calendar</a>";
 }
 
 //function to add an event to the user's calendar
@@ -100,29 +122,29 @@ function createEvents() {
     };
 
     //format dates to work with Google Calendar API
-    var Event_Start_Date = Event_Start_Date.slice(-4) + "-" + Months[Event_Start_Date.slice(0, 3)] + "-" + Event_Start_Date.slice(4, 5);
-    var Event_End_Date = Event_End_Date.slice(-4) + "-" + Months[Event_End_Date.slice(0, 3)] + "-" + Event_End_Date.slice(4, 5);
+    var startDay = Event_Start_Date.slice(Event_Start_Date.indexOf(' ') + 1 ,Event_Start_Date.indexOf(','));
+    var endDay = Event_End_Date.slice(Event_End_Date.indexOf(' ') + 1 ,Event_End_Date.indexOf(','));
+    if(startDay.len == 1)
+        startDay = "0" + startDay
+    if(endDay.len == 1)
+        endDay = "0" + endDay
+
+    var Event_Start_Date = Event_Start_Date.slice(-4) + "-" + Months[Event_Start_Date.slice(0, 3)] + "-" + startDay;
+    var Event_End_Date = Event_End_Date.slice(-4) + "-" + Months[Event_End_Date.slice(0, 3)] + "-" + endDay;
 
     var start_time = $("#timepicker1").val().slice(0, -3);
     var end_time = $("#timepicker2").val().slice(0, -3);
 
+
     //Case handles 12:xx AM
     if ($("#timepicker1").val().slice(-2) == "AM") {
       if (start_time[0] + start_time[1] == "12") {
-
-        start_time = "00" + start_time.slice(2, -3);
-      }
-      else{
-        start_time = start_time.slice(-3);
+        start_time = "00" + start_time.slice(-3);
       }
     }
     if ($("#timepicker2").val().slice(-2) == "AM") {
       if (end_time[0] + end_time[1] == "12") {
-
-        end_time = "00" + end_time.slice(2, -3);
-      }
-      else{
-        end_time = end_time.slice(-3);
+        end_time = "00" + end_time.slice(-3);
       }
     }
 
@@ -162,16 +184,15 @@ function createEvents() {
         'resource': event
     });
     request.execute(function (event) {
-        display('Event created: ' + event.htmlLink);
     });
 }
 
-    
+
 //function to add a message to the popup
 function display(message) {
     var pre = document.getElementById('agenda');
     var textContent = document.createTextNode(message + '\n');
-    pre.appendChild(textContent);
+    pre.innerHTML = pre.innerHTML + "<div class= card-panel new-event>" + message + "</div>";
 }
 
 // Sends events to main.js to be handled by content scripts
