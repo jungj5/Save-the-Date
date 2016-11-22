@@ -1,5 +1,5 @@
-background.ts
-main.ts
-marker.ts
-parser.ts
-js\popup.ts
+ts\background.ts
+ts\main.ts
+ts\marker.ts
+ts\parser.ts
+ts\popup.ts
