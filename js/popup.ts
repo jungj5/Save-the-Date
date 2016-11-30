@@ -73,10 +73,14 @@ var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
   "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
 ];
 
+//Grab hover_popup.html url
 var word = decodeURIComponent(window.location.search.substring(window.location.search.indexOf('date=')));
-word = word.slice(5, word.length);
+word = word.slice(5, word.length); //get the date from the url
+
 if (word.indexOf("(") == 34){
   var d = new Date(word);
+
+  //if using hover_popup..
   if (document.URL.indexOf('hover') != -1){
     $('#start_date').val(monthNames[d.getMonth()] + " " + d.getDate() + ", " + d.getFullYear());
     if (formatAMPM(d).indexOf(":") == 1){
@@ -87,8 +91,10 @@ if (word.indexOf("(") == 34){
     }
 
     //Default duration of event if no end time given = 1 hour
+    //special case for 12 o clock
     if ($('#timepicker1').val().slice(0, 2) == "12") {
       var end_time = "01:" + $('#timepicker1').val().slice(-5, -3);
+      //handle pm vs am cases
       if ($('#timepicker1').val().slice(-2) == "PM") {
         end_time = end_time + " PM";
         $('#timepicker2').val(end_time);
@@ -100,9 +106,11 @@ if (word.indexOf("(") == 34){
         $('#end_date').val(monthNames[d.getMonth()] + " " + d.getDate() + ", " + d.getFullYear());
       }
     }
+    //times that aren't 12 o clock
     else {
       var start_hour = $('#timepicker1').val().slice(0, 2);
       var start_hour = parseInt(start_hour);
+      //case of hours being between 10 or 11.
       if (start_hour.toString().length == 2) {
         start_hour = start_hour + 1;
         var end_hour = start_hour.toString();
@@ -110,8 +118,10 @@ if (word.indexOf("(") == 34){
         $('#timepicker2').val(end_time);
         $('#end_date').val(monthNames[d.getMonth()] + " " + d.getDate() + ", " + d.getFullYear());
       }
+      //any other hour
       else{
         start_hour = start_hour + 1;
+        //if hour + 1 is 10 o clock..
         if (start_hour == 10) {
           var end_hour = start_hour.toString() + ":";
         }
@@ -127,7 +137,6 @@ if (word.indexOf("(") == 34){
   }
 }
 
-
+//########## Required format for inputting date/time #########
 //Nov 1, 2016
 //12:00 PM
-//Only autofill date if using iFrame hover instead of browser action button.
