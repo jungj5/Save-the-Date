@@ -47,7 +47,7 @@ function addHover(): void {
             //  for 350 milliseconds
             timeout = window.setTimeout(function() {
                 // Create the iframe for the popup box
-                let popupURL: string = chrome.runtime.getURL('hover_popup.html');
+                let popupURL: string = chrome.runtime.getURL('html/hover_popup.html');
                 let dateText: string = $(e.target).text();
                 let parsedText: any = chrono.parse(dateText);
                 /*for (var i = 0; i < parsedText.length; i++) {
