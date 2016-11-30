@@ -17,34 +17,34 @@
       "38": "icons/icon38.png"
     },
     "default_title": "Pencil-It-In",
-    "default_popup": "popup.html"
+    "default_popup": "html/popup.html"
   },
 
   "content_scripts": [
     {
       "matches": ["http://*/*", "https://*/*"],
       "css": [
-        "mark.css"
+        "css/mark.css"
       ],
       "js": [
         "node_modules/jquery/dist/jquery.min.js",
         "node_modules/mark.js/dist/mark.min.js",
         "node_modules/chrono-node/chrono.min.js",
-        "parser.js",
-        "marker.js",
-        "main.js",
+        "js/parser.js",
+        "js/marker.js",
+        "js/main.js",
         "js/popup.js"
       ],
       "run_at": "document_end"
     }
   ],
   "background": {
-    "scripts": ["node_modules/jquery/dist/jquery.min.js", "background.js"],
+    "scripts": ["node_modules/jquery/dist/jquery.min.js", "js/background.js"],
     "persistent": false
   },
 
   "web_accessible_resources": [
-    "hover_popup.html",
+    "html/hover_popup.html",
     "css/materialize.css",
     "node_modules/jquery/dist/jquery.min.js"
   ],

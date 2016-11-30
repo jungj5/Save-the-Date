@@ -1,4 +1,9 @@
+$('#gCalLink').click(function() {
+    console.log("Google calendar link clicked");
+    chrome.tabs.create({active: true, url: "http://www.google.com/calendar"});
+});
 
+// Expand popup functionality
 $('#toggle-body').click(function() {
     let newWidth: string = '500px';
     if ($('body').width() == 500) {
@@ -10,6 +15,7 @@ $('#toggle-body').click(function() {
     $('body').animate({width: newWidth});
 });
 
+// Initialize the date picker input field
 $('.datepicker').pickadate({
     selectMonths: true, // Creates a dropdown to control month
     selectYears: 15, // Creates a dropdown of 15 years to control year
@@ -31,6 +37,7 @@ $('.datepicker').pickadate({
     }
 });
 
+// Initialize the date picker input field
 $('.timepicker').timepicker({
     dynamic: false,
     startTime: '12:00'
@@ -57,7 +64,7 @@ if (document.URL.indexOf('hover') != -1){
             startTime: eventStartTime,
             endTime: eventEndTime
         };
-    
+
         chrome.runtime.sendMessage(message);
 
     })

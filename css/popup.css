@@ -84,8 +84,7 @@ input[type=text] {
   overflow-x: hidden;
   overflow-y: auto;
   position: absolute;
-  min-width: 50px;
-  height: 95%;
+  min-width: 100px;
   width: calc(100% - 280px);
   margin-left: 280px; }
 
@@ -122,6 +121,5 @@ input[type=text] {
 
 .input-field label.active {
   transform: translateY(-90%); }
-
 
 /*# sourceMappingURL=popup.css.map */
