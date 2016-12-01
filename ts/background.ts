@@ -6,6 +6,9 @@ var events;
 var gapi;
 let maxEvents;
 
+// Get the Google Calendar client ID from the manifest
+let client_id:string = chrome.runtime.getManifest().oauth2.client_id;
+
 function main() {
     maxEvents = 2;
 
@@ -33,8 +36,7 @@ function main() {
 
     function authorize(): void {
         gapi.auth.authorize({
-            client_id: '955471480917-2n5jm56c3uucharlj9njl17kbmg72r5h.apps.googleusercontent.com',
-
+            client_id: client_id,
             immediate: true,
             scope: 'https://www.googleapis.com/auth/calendar'
         }, function () {
@@ -218,7 +220,7 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab): void {
     }
 })
 
-// Receive messages from the popup iframe and call the 
+// Receive messages from the popup iframe and call the
 //  createEvents() function with the appropriate information
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse): void {
     console.log("Received message");

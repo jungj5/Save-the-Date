@@ -71,6 +71,8 @@ if (document.URL.indexOf('hover') != -1){
 }
 
 //#########################Auto-fill implementation###########################
+
+//Helper function for reformatting the times.
 function formatAMPM(date) {
   var hours = date.getHours();
   var minutes = date.getMinutes();
@@ -86,12 +88,56 @@ var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
   "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
 ];
 
+//Grab hover_popup.html url
 var word = decodeURIComponent(window.location.search.substring(window.location.search.indexOf('date=')));
-word = word.slice(5, word.length);
-if (word.indexOf("(") == 34){
+word = word.slice(5, word.length); //get the date from the url
+
+//Check if there are two dates in the url.
+var count = (word.match(/date=/g) || []).length;
+
+//If there are two dates..
+if (count == 1) {
+  var endTime = word.slice(word.indexOf('date=') + 5, word.length);
+  var startTime = word.slice(0, word.indexOf('?date='));
+  var d1 = new Date(startTime);
+  var d2 = new Date(endTime);
+
+  //if we are in the hover popup... Do the autofill.
+  if (document.URL.indexOf('hover') != -1) {
+
+    //Autofills the start and end dates of the event
+    $('#start_date').val(monthNames[d1.getMonth()] + " " + d1.getDate() + ", " + d1.getFullYear());
+    $('#end_date').val(monthNames[d2.getMonth()] + " " + d2.getDate() + ", " + d2.getFullYear());
+
+    //Format the times to be of a format that the API can take in.
+    if (formatAMPM(d1).indexOf(":") == 1){
+      $('#timepicker1').val("0" + formatAMPM(d1));
+    }
+    else{
+      $('#timepicker1').val(formatAMPM(d1));
+    }
+
+    if (formatAMPM(d2).indexOf(":") == 1){
+      $('#timepicker2').val("0" + formatAMPM(d2));
+    }
+    else{
+      $('#timepicker2').val(formatAMPM(d2));
+    }
+  }
+}
+
+else {
   var d = new Date(word);
-  if (document.URL.indexOf('hover') != -1){
+
+  //Do this only if the popup is the hover popup and not the browser action button.
+  if (document.URL.indexOf('hover') != -1) {
+
+    //Autofills the date of the event
     $('#start_date').val(monthNames[d.getMonth()] + " " + d.getDate() + ", " + d.getFullYear());
+
+    //######### Handle inputting the times now... ###########
+
+    //For the start time, if the hour time of the event is 1 digit.. put a 0 on front of it. Otherwise leave it as is.
     if (formatAMPM(d).indexOf(":") == 1){
       $('#timepicker1').val("0" + formatAMPM(d));
     }
@@ -99,48 +145,21 @@ if (word.indexOf("(") == 34){
       $('#timepicker1').val(formatAMPM(d));
     }
 
-    //Default duration of event if no end time given = 1 hour
-    if ($('#timepicker1').val().slice(0, 2) == "12") {
-      var end_time = "01:" + $('#timepicker1').val().slice(-5, -3);
-      if ($('#timepicker1').val().slice(-2) == "PM") {
-        end_time = end_time + " PM";
-        $('#timepicker2').val(end_time);
-        $('#end_date').val(monthNames[d.getMonth()] + " " + d.getDate() + ", " + d.getFullYear());
-      }
-      else {
-        end_time = end_time + " AM";
-        $('#timepicker2').val(end_time);
-        $('#end_date').val(monthNames[d.getMonth()] + " " + d.getDate() + ", " + d.getFullYear());
-      }
-    }
-    else {
-      var start_hour = $('#timepicker1').val().slice(0, 2);
-      var start_hour = parseInt(start_hour);
-      if (start_hour.toString().length == 2) {
-        start_hour = start_hour + 1;
-        var end_hour = start_hour.toString();
-        var end_time = end_hour + $('#timepicker1').val().slice(-5, -3) + $('#timepicker1').val().slice(-2);
-        $('#timepicker2').val(end_time);
-        $('#end_date').val(monthNames[d.getMonth()] + " " + d.getDate() + ", " + d.getFullYear());
-      }
-      else{
-        start_hour = start_hour + 1;
-        if (start_hour == 10) {
-          var end_hour = start_hour.toString() + ":";
-        }
-        else{
-          var end_hour = "0" + start_hour.toString() + ":";
-        }
-        var end_time = end_hour + $('#timepicker1').val().slice(-5, -3) + " " + $('#timepicker1').val().slice(-2);
-        $('#timepicker2').val(end_time);
-        $('#end_date').val(monthNames[d.getMonth()] + " " + d.getDate() + ", " + d.getFullYear());
-      }
+    //Now handling end time if no end time was given. (Using event duration of 1 hour as default)
+    var d2 = new Date (d);
+    d2.setHours(d.getHours() + 1);
+    $('#end_date').val(monthNames[d2.getMonth()] + " " + d2.getDate() + ", " + d2.getFullYear());
 
+    //Same as above, if the hour of the time only one digit, prepend a 0. Else leave as is and fill.
+    if (formatAMPM(d2).indexOf(":") == 1){
+      $('#timepicker2').val("0" + formatAMPM(d2));
+    }
+    else{
+      $('#timepicker2').val(formatAMPM(d2));
     }
   }
 }
 
-
+//########## Required format for inputting date/time #########
 //Nov 1, 2016
 //12:00 PM
-//Only autofill date if using iFrame hover instead of browser action button.

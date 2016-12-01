@@ -66,7 +66,7 @@ function addHover(): void {
                       console.log(parsedText[0].start.date());
                 }
                 else{
-                  $("<iframe id='calPopup' class='calendarPopup' src='" + popupURL + '?date=' + encodeURIComponent(parsedText[0].start.date()) + encodeURIComponent(parsedText[0].end.date()) + "' height='354.375' width='280'></iframe>")
+                  $("<iframe id='calPopup' class='calendarPopup' src='" + popupURL + '?date=' + encodeURIComponent(parsedText[0].start.date()) + '?date=' + encodeURIComponent(parsedText[0].end.date()) + "' height='354.375' width='280'></iframe>")
                   .appendTo("body")
                   .fadeIn("slow")
                   .css({top: y+OFFSET_Y+"px", left: x+OFFSET_X+"px"});
