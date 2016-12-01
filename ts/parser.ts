@@ -136,14 +136,22 @@ class ChronoParser {
         };
 
         for (let i: number = 0; i < parserResults.length; i++) {
-            let matchedText: string = parserResults[i].text;
+            let parserResult: ParsedResult = parserResults[i];
+            let matchedText: string = parserResult.text;
+
             // Ignore past events
-            if (this.isPastEvent(parserResults[i])) {
+            if (this.isPastEvent(parserResult)) {
+                continue;
+            }
+
+            // Events without a specified time don't have conflicts
+            if (parserResult.start.impliedValues.hour) {
+                textToMark["green"].push(matchedText);
                 continue;
             }
 
             // Get the event start and end times
-            let parserResult: ParsedResult = parserResults[i];
+            // let parserResult: ParsedResult = parserResults[i];
             let proposedEventStart: Date = new Date(parserResult.start.date());
             let proposedEventEnd: Date;
             if (parserResult.end) {
