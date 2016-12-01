@@ -187,12 +187,16 @@ function createEvents(eventSummary: string, eventLocation: string, eventStartDat
             'timeZone': 'America/New_York'
         }
     };
+    console.log("About to load request");
     let request = gapi.client.calendar.events.insert({
         'calendarId': 'primary',
         'resource': event
     });
+    console.log("Request loaded");
     request.execute(function (event) {
+        console.log(event);
     });
+    console.log("Request executed");
 }
 
 
