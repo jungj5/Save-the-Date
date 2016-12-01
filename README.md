@@ -4,7 +4,10 @@ Efficiently manage your Google Calendar. Quickly add & edit events by clicking a
 
 ## Installation
 - Clone this repository
-- Run "npm install" via the command line in the project directory
+- Install [Node.js](nodejs.org)
+- Install [Typescript](typescriptlang.org)
+- Run `npm install` followed by `tsc @ts-files.txt --outDir js` via the command line in the project directory to install Javascript dependencies and compile Typescript files into Javascript
+- Generate a [Google Calendar API Client ID](console.developers.google.com/apis/credentials) and use the new Client ID to replace "Your Client ID here" within manifest.json
 - Turn on developer mode under chrome's extensions settings (chrome://extensions/) and find the project's directory after clicking "Load unpacked extension..."
 
 ## Credits
