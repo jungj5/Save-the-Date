@@ -10,6 +10,8 @@ console.log("I AM PENCIL-IT-IN, FEEL MY WRATH");
 const MIN_PARSABLE_TEXT_LENGTH: number = 3;
 const OFFSET_X: number = 20;
 const OFFSET_Y: number = 20;
+const OFFSET_X_OPPOSITE: number = -325;
+const OFFSET_Y_OPPOSITE: number = -400;
 
 
 // -------------
@@ -41,6 +43,22 @@ function addHover(): void {
         // Cursor coordinates
         let x: number = e.clientX;
         let y: number = e.clientY;
+        console.log("x = " + x);
+        console.log("y = " + y);
+        console.log("window width = " + $(window).width());
+        console.log("window height = " + $(window).height());
+        let maxX = $(window).width();
+        let maxY = $(window).height();
+        if ((maxY - y) < 390) {
+            y = y + OFFSET_Y_OPPOSITE;
+        } else {
+            y = y + OFFSET_Y;
+        }
+        if ((maxX - x) < 315) {
+            x = x + OFFSET_X_OPPOSITE;
+        } else {
+            x = x + OFFSET_X;
+        }
 
             // Set a timer so that the popup box only appears
             //  if the user hovers over the highlighted text
@@ -50,26 +68,20 @@ function addHover(): void {
                 let popupURL: string = chrome.runtime.getURL('html/hover_popup.html');
                 let dateText: string = $(e.target).text();
                 let parsedText: any = chrono.parse(dateText);
-                /*for (var i = 0; i < parsedText.length; i++) {
-                  console.log(parsedText[i]);
-
-                }*/
-                //console.log(parsedText[0].start.date());
-                //console.log(parsedText[0].end);
 
                 if (parsedText[0].end == undefined) {
-                  $("<iframe id='calPopup' class='calendarPopup' src='" + popupURL + '?date=' + encodeURIComponent(parsedText[0].start.date()) +
-                      "' height='354.375' width='280'></iframe>")
-                      .appendTo("body")
-                      .fadeIn("slow")
-                      .css({top: y+OFFSET_Y+"px", left: x+OFFSET_X+"px"});
-                      console.log(parsedText[0].start.date());
+
+                    $("<iframe id='calPopup' class='calendarPopup' src='" + popupURL + '?date=' + encodeURIComponent(parsedText[0].start.date()) +
+                        "' height='354.375' width='280'></iframe>")
+                        .appendTo("body")
+                        .fadeIn("slow")
+                        .css({top: y+"px", left: x+"px"});
                 }
                 else{
-                  $("<iframe id='calPopup' class='calendarPopup' src='" + popupURL + '?date=' + encodeURIComponent(parsedText[0].start.date()) + '?date=' + encodeURIComponent(parsedText[0].end.date()) + "' height='354.375' width='280'></iframe>")
-                  .appendTo("body")
-                  .fadeIn("slow")
-                  .css({top: y+OFFSET_Y+"px", left: x+OFFSET_X+"px"});
+                    $("<iframe id='calPopup' class='calendarPopup' src='" + popupURL + '?date=' + encodeURIComponent(parsedText[0].start.date()) + '?date=' + encodeURIComponent(parsedText[0].end.date()) + "' height='354.375' width='280'></iframe>")
+                        .appendTo("body")
+                        .fadeIn("slow")
+                        .css({top: y+"px", left: x+"px"});
                 }
 
             }, 350);
