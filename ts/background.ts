@@ -37,7 +37,6 @@ function main() {
     function authorize(): void {
         gapi.auth.authorize({
             client_id: client_id,
-
             immediate: true,
             scope: 'https://www.googleapis.com/auth/calendar'
         }, function () {
