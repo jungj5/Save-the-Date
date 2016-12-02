@@ -126,4 +126,9 @@ input[type=text] {
 .input-field label.active {
   transform: translateY(-90%); }
 
+#textarea1 {
+  overflow-y: auto;
+  height: 50px;
+  max-height: 50px; }
+
 /*# sourceMappingURL=popup.css.map */
