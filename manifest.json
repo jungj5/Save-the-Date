@@ -23,6 +23,7 @@
   "content_scripts": [
     {
       "matches": ["http://*/*", "https://*/*"],
+      "exclude_matches": ["https://docs.google.com/*", "https://calendar.google.com/*"],
       "css": [
         "css/mark.css"
       ],
@@ -52,7 +53,7 @@
   "content_security_policy": "script-src https://*.google.com 'unsafe-eval'; object-src 'self'",
 
   "oauth2": {
-     "client_id": "Your Client ID here",
+     "client_id": "955471480917-2n5jm56c3uucharlj9njl17kbmg72r5h.apps.googleusercontent.com",
      "scopes": [
        "https://www.googleapis.com/auth/calendar"
      ]
