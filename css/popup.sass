@@ -3,6 +3,8 @@
  *  light-blue: #03a9f4
  *  red accent-2: #FF5252
 
+$timepicker-height: 170px
+
 \::-webkit-scrollbar
   width: 10px
 
@@ -131,7 +133,11 @@ input
   height: 2rem
 
 .ui-timepicker-container
-  height: 150px !important
+  height: $timepicker-height !important
+  z-index: 100 !important
+
+.ui-timepicker-viewport
+  height: $timepicker-height - 5px
 
 .input-field label.active
   transform: translateY(-90%)

@@ -40,7 +40,9 @@ $('.datepicker').pickadate({
 // Initialize the date picker input field
 $('.timepicker').timepicker({
     dynamic: false,
-    startTime: '12:00'
+});
+$('.timepicker').click(function() {
+    $('.ui-timepicker-viewport').scrollTop(495);
 });
 
 // If the popup is being displayed in an iFrame,
