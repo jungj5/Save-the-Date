@@ -86,7 +86,9 @@ input[type=text] {
   position: absolute;
   min-width: 100px;
   width: calc(100% - 280px);
-  margin-left: 280px; }
+  margin-left: 280px;
+  height: 95%;
+  white-space: normal !important; }
 
 .new-event .picker__date-display {
   display: none; }
@@ -125,10 +127,5 @@ input[type=text] {
 
 .input-field label.active {
   transform: translateY(-90%); }
-
-#textarea1 {
-  overflow-y: auto;
-  height: 50px;
-  max-height: 50px; }
 
 /*# sourceMappingURL=popup.css.map */

@@ -10,7 +10,7 @@ let maxEvents;
 let client_id:string = chrome.runtime.getManifest().oauth2.client_id;
 
 function main() {
-    maxEvents = 2;
+    maxEvents = 4;
 
     //oauth2 auth
     chrome.identity.getAuthToken({ 'interactive': true }, function () {
@@ -50,10 +50,10 @@ function main() {
 
 function setMaxEvents(){
     console.log('Entered setMaxEvents')
-    if(maxEvents == 2)
+    if(maxEvents == 4)
         maxEvents = 30;
     else
-         maxEvents = 2;
+         maxEvents = 4;
     document.getElementById('agenda').innerHTML = "<a href=http://www.google.com/calendar>Calendar</a>";
 
 }
@@ -72,8 +72,8 @@ function loadEvents(){
     displayRequest.execute(function(resp)
         {
             events = resp.items;
-
-            if (events.length > 0) { //display next 5 events if they exist
+            console.log(events);
+            if (events.length > 0) { //display next events if they exist
                 for (var i = 0; i < events.length && i < maxEvents; i++) {
                     var event = events[i];
                     var when = event.start.dateTime;
@@ -83,9 +83,10 @@ function loadEvents(){
                     var summary = event.summary;
                     if(summary == undefined)
                         summary = "(No title)"
-                    var date =  when.slice(0 ,when.indexOf('T'));
-                    var time = when.slice(when.indexOf('T') + 1, when.slice(when.indexOf('T')).indexOf('-') + when.indexOf('T'))
-                    display(summary + '\n' + date + "\n" + time);
+                    let dateObj:Date = new Date(when);
+                    var date = dateObj.toLocaleDateString();
+                    var time = dateObj.toLocaleTimeString();
+                    display(summary + '\n <br>' + date + "\n" + time);
                 }
             }
             else {
