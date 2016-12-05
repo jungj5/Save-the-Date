@@ -43,7 +43,7 @@ function main() {
             gapi.client.load('calendar', 'v3', loadEvents);
         });
     }
-    document.getElementById("Create").addEventListener("click", createEventsBrowserAction);
+    //document.getElementById("Create").addEventListener("click", createEventsBrowserAction);
     //document.getElementById("toggle-body-icon").addEventListener("click", setMaxEvents);
     //document.getElementById("toggle-body-icon").addEventListener("click", loadEvents);
 }
@@ -95,18 +95,18 @@ function loadEvents(){
 }
 
 // Helper function for createEvents()
-function createEventsBrowserAction(): void {
-    // Get the information from the browser action box
-    let summary: string = $("#event_title_input").val();
-    let location: string = $("#location_input").val();
-    let startDate: string = $("#start_date").val();
-    let endDate: string = $("#end_date").val();
-    let description: string = $("#textarea1").val();
-    let startTime: string = $("#timepicker1").val();
-    let endTime: string = $("#timepicker2").val();
-
-    createEvents(summary, location, startDate, endDate, description, startTime, endTime);
-}
+// function createEventsBrowserAction(): void {
+//     // Get the information from the browser action box
+//     let summary: string = $("#event_title_input").val();
+//     let location: string = $("#location_input").val();
+//     let startDate: string = $("#start_date").val();
+//     let endDate: string = $("#end_date").val();
+//     let description: string = $("#textarea1").val();
+//     let startTime: string = $("#timepicker1").val();
+//     let endTime: string = $("#timepicker2").val();
+//
+//     createEvents(summary, location, startDate, endDate, description, startTime, endTime);
+// }
 
 // Function to add an event to the user's calendar
 function createEvents(eventSummary: string, eventLocation: string, eventStartDate: string, eventEndDate: string, eventDescription: string, startTime: string, endTime: string): void {

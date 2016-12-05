@@ -40,8 +40,7 @@
     }
   ],
   "background": {
-    "scripts": ["node_modules/jquery/dist/jquery.min.js", "js/background.js"],
-    "persistent": false
+    "scripts": ["node_modules/jquery/dist/jquery.min.js", "js/background.js"]
   },
 
   "web_accessible_resources": [
@@ -53,7 +52,7 @@
   "content_security_policy": "script-src https://*.google.com 'unsafe-eval'; object-src 'self'",
 
   "oauth2": {
-     "client_id": "955471480917-2n5jm56c3uucharlj9njl17kbmg72r5h.apps.googleusercontent.com",
+     "client_id": "YOUR KEY HERE",
      "scopes": [
        "https://www.googleapis.com/auth/calendar"
      ]

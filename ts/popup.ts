@@ -48,7 +48,7 @@ $('.timepicker').click(function() {
 // If the popup is being displayed in an iFrame,
 // gets the date and time from the corresponding elements and
 // sends them to the background script.
-if (document.URL.indexOf('hover') != -1){
+//if (document.URL.indexOf('hover') != -1
     $('#Create').click(function() {
         const Event_Summary = $("#event_title_input").val();
         const Event_Location = $("#location_input").val();
@@ -70,7 +70,7 @@ if (document.URL.indexOf('hover') != -1){
         chrome.runtime.sendMessage(message);
 
     })
-}
+//}
 
 //#########################Auto-fill implementation###########################
 
