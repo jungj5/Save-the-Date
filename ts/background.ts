@@ -10,7 +10,7 @@ let maxEvents;
 let client_id:string = chrome.runtime.getManifest().oauth2.client_id;
 
 function main() {
-    maxEvents = 4;
+    maxEvents = 30;
 
     //oauth2 auth
     chrome.identity.getAuthToken({ 'interactive': true }, function () {
@@ -44,8 +44,8 @@ function main() {
         });
     }
     document.getElementById("Create").addEventListener("click", createEventsBrowserAction);
-    document.getElementById("toggle-body-icon").addEventListener("click", setMaxEvents);
-    document.getElementById("toggle-body-icon").addEventListener("click", loadEvents);
+    //document.getElementById("toggle-body-icon").addEventListener("click", setMaxEvents);
+    //document.getElementById("toggle-body-icon").addEventListener("click", loadEvents);
 }
 
 function setMaxEvents(){
@@ -54,8 +54,6 @@ function setMaxEvents(){
         maxEvents = 30;
     else
          maxEvents = 4;
-    document.getElementById('agenda').innerHTML = "<a href=http://www.google.com/calendar>Calendar</a>";
-
 }
 
 // Function to load upcoming events from the user's calendar
