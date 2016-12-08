@@ -52,7 +52,7 @@
   "content_security_policy": "script-src https://*.google.com 'unsafe-eval'; object-src 'self'",
 
   "oauth2": {
-     "client_id": "YOUR KEY HERE",
+     "client_id": "1069896597696-7lvcholk495vuj6ad4jnn7iusg0up47s.apps.googleusercontent.com",
      "scopes": [
        "https://www.googleapis.com/auth/calendar"
      ]

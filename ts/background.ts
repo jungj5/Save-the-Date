@@ -43,6 +43,8 @@ function main() {
             gapi.client.load('calendar', 'v3', loadEvents);
         });
     }
+
+    loadEvents();
     //document.getElementById("Create").addEventListener("click", createEventsBrowserAction);
     //document.getElementById("toggle-body-icon").addEventListener("click", setMaxEvents);
     //document.getElementById("toggle-body-icon").addEventListener("click", loadEvents);
@@ -58,6 +60,7 @@ function setMaxEvents(){
 
 // Function to load upcoming events from the user's calendar
 function loadEvents(){
+    console.log("Loading events");
     var displayRequest = gapi.client.calendar.events.list(
         {
           'calendarId': 'primary',
@@ -203,9 +206,15 @@ function createEvents(eventSummary: string, eventLocation: string, eventStartDat
 
 //function to add a message to the popup
 function display(message): void {
-    var pre = document.getElementById('agenda');
-    var textContent = document.createTextNode(message + '\n');
-    pre.innerHTML = pre.innerHTML + "<div class= card-panel new-event>" + message + "</div>";
+    var views = chrome.extension.getViews({
+        type: "popup"
+    });
+    for (var i = 0; i < views.length; i++) {
+        var pre = views[i].document.getElementById('agenda');
+        var textContent = document.createTextNode(message + '\n');
+        pre.innerHTML = pre.innerHTML + "<div class= card-panel new-event>" + message + "</div>";
+    }
+
 }
 
 // Sends events to main.js to be handled by content scripts

@@ -165,3 +165,6 @@ else {
 //########## Required format for inputting date/time #########
 //Nov 1, 2016
 //12:00 PM
+
+var bgPage = chrome.extension.getBackgroundPage();
+var dat =  bgPage.loadEvents();
