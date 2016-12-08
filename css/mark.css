@@ -1,27 +1,27 @@
 .greenText {
-	background-color: rgba(0,255,0,.125);
+    background-color: rgba(0, 255, 0, .125);
 }
 
 .yellowText {
-	background-color: rgba(255,255,0,.20);
+    background-color: rgba(255, 255, 0, .20);
 }
 
 .redText {
-	background-color: rgba(255,0,0,.10);
+    background-color: rgba(255, 0, 0, .10);
 }
 
 mark:hover {
-	cursor: pointer;
+    cursor: pointer;
 }
 
 .calendarPopup {
-	display:none;
-	position:fixed;
-	border:1px solid #333;
-	background-color:#fff;
-	border-radius:2px;
-	padding:2px;
-	color:#fff;
-	z-index: 10000;
-	min-width: 280px
+    display: none;
+    position: fixed;
+    border: 1px solid #333;
+    background-color: #fff;
+    border-radius: 2px;
+    padding: 2px;
+    color: #fff;
+    z-index: 10000;
+    min-width: 280px
 }

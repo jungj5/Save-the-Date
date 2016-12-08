@@ -2,110 +2,110 @@
 
 <div class="calendarPopup">
 
-<head>
-    <!--Import Google Icon Font-->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <!--Import materialize.css and materialize-clockpicker.css-->
-    <link type="text/css" rel="stylesheet" href="../css/materialize.css" media="screen,projection" />
-    <link type="text/css" rel="stylesheet" href="../node_modules/jquery-timepicker/jquery.timepicker.css"/>
+    <head>
+        <!--Import Google Icon Font-->
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <!--Import materialize.css and materialize-clockpicker.css-->
+        <link type="text/css" rel="stylesheet" href="../css/materialize.css" media="screen,projection" />
+        <link type="text/css" rel="stylesheet" href="../node_modules/jquery-timepicker/jquery.timepicker.css" />
 
-    <!-- Import popup.css -->
-    <link type="text/css" rel="stylesheet" href="../css/popup.css"/>
+        <!-- Import popup.css -->
+        <link type="text/css" rel="stylesheet" href="../css/popup.css" />
 
-    <!--Let browser know website is optimized for mobile-->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <!--Let browser know website is optimized for mobile-->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <div class="navbar-fixed create-event-div">
-      <nav class="light-blue">
-        <div class="nav-wrapper">
-          <a href="#"><i class="material-icons left">event</i></a>
-          <a href="#" id="toggle-body"><i class="material-icons right" id="toggle-body-icon">keyboard_arrow_right</i></a>
-          <form>
-            <div >
-              <big>Pencil-It-In</big>
-            </div>
-          </form>
+        <div class="navbar-fixed create-event-div">
+            <nav class="light-blue">
+                <div class="nav-wrapper">
+                    <a href="#"><i class="material-icons left">event</i></a>
+                    <a href="#" id="toggle-body"><i class="material-icons right" id="toggle-body-icon">keyboard_arrow_right</i></a>
+                    <form>
+                        <div>
+                            <big>Pencil-It-In</big>
+                        </div>
+                    </form>
+                </div>
+            </nav>
         </div>
-      </nav>
-    </div>
 
 
-</head>
+    </head>
 
-<body>
-    <div class="row">
-      <div class="col new-event-wrapper">
-        <div class="card-panel new-event">
-          <h6>Create an Event</h6>
+    <body>
+        <div class="row">
+            <div class="col new-event-wrapper">
+                <div class="card-panel new-event">
+                    <h6>Create an Event</h6>
 
-          <!-- Event title input -->
-          <div class="input-field">
-            <input class="black-text" placeholder="Event Title" id="event_title_input" type="text">
-          </div>
+                    <!-- Event title input -->
+                    <div class="input-field">
+                        <input class="black-text" placeholder="Event Title" id="event_title_input" type="text">
+                    </div>
 
-          <!-- Date and time pickers -->
-          <div class="row date-time-picker">
-            <div class="s5 col">
+                    <!-- Date and time pickers -->
+                    <div class="row date-time-picker">
+                        <div class="s5 col">
 
-              <input type="date" class="datepicker" placeholder="Date" id="start_date">
+                            <input type="date" class="datepicker" placeholder="Date" id="start_date">
 
-            </div>
-            <div class="s2 col">
-                at
-            </div>
-            <div class="s5 col">
+                        </div>
+                        <div class="s2 col">
+                            at
+                        </div>
+                        <div class="s5 col">
 
-              <input id="timepicker1" class="timepicker" type="text" placeholder="Time">
+                            <input id="timepicker1" class="timepicker" type="text" placeholder="Time">
 
-            </div>
-          </div>
-          <div class="row date-time-picker">
-            <div class="s5 col">
+                        </div>
+                    </div>
+                    <div class="row date-time-picker">
+                        <div class="s5 col">
 
-              <input type="date" class="datepicker" placeholder="Date" id="end_date">
+                            <input type="date" class="datepicker" placeholder="Date" id="end_date">
 
-            </div>
-            <div class="s2 col">
-                at
-            </div>
-            <div class="s5 col">
+                        </div>
+                        <div class="s2 col">
+                            at
+                        </div>
+                        <div class="s5 col">
 
-              <input id="timepicker2" class="timepicker" type="text" placeholder="Time">
+                            <input id="timepicker2" class="timepicker" type="text" placeholder="Time">
 
-            </div>
-          </div>
-          <div class="input-field">
-            <i class="material-icons prefix">add_location</i>
-            <input class="black-text" placeholder="Location" id="location_input" type="text">
+                        </div>
+                    </div>
+                    <div class="input-field">
+                        <i class="material-icons prefix">add_location</i>
+                        <input class="black-text" placeholder="Location" id="location_input" type="text">
 
-          </div>
+                    </div>
 
-          <div class="input-field">
-            <label for="textarea1">Description</label>
-            <textarea id="textarea1" class="materialize-textarea"></textarea>
-          </div>
+                    <div class="input-field">
+                        <label for="textarea1">Description</label>
+                        <textarea id="textarea1" class="materialize-textarea"></textarea>
+                    </div>
 
-          <div class="center-align">
-            <button class="btn waves-effect waves-light" name="action" id="Create">Create
+                    <div class="center-align">
+                        <button class="btn waves-effect waves-light" name="action" id="Create">Create
             </button>
-          </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col calendar-wrapper" id="agenda">
+            </div>
+
         </div>
-      </div>
 
-      <div class="col calendar-wrapper" id="agenda">
-      </div>
+        <!--Import jQuery before materialize.js and timepicker.js-->
+        <script type="text/javascript" src="../node_modules/jquery/dist/jquery.min.js"></script>
+        <script type="text/javascript" src="../js/materialize.min.js"></script>
+        <script type="text/javascript" src="../node_modules/jquery-timepicker/jquery.timepicker.js"></script>
 
-    </div>
+        <!-- Import popup.js -->
+        <script type="text/javascript" src="../js/popup.js"></script>
 
-    <!--Import jQuery before materialize.js and timepicker.js-->
-    <script type="text/javascript" src="../node_modules/jquery/dist/jquery.min.js"></script>
-    <script type="text/javascript" src="../js/materialize.min.js"></script>
-    <script type="text/javascript" src="../node_modules/jquery-timepicker/jquery.timepicker.js"></script>
-
-    <!-- Import popup.js -->
-    <script type="text/javascript" src="../js/popup.js"></script>
-
-</body>
+    </body>
 
 </div>
 
