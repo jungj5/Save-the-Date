@@ -2,14 +2,14 @@ document.addEventListener('DOMContentLoaded', function() {
     main();
 });
 
-var events: any;
-var gapi;
-let maxEvents;
+let events;
+let gapi;
+let maxEvents: number;
 
 // Get the Google Calendar client ID from the manifest
-let client_id: string = chrome.runtime.getManifest().oauth2.client_id;
+let clientId: string = chrome.runtime.getManifest().oauth2.client_id;
 
-function main() {
+function main(): void {
     maxEvents = 30;
 
     //oauth2 auth
@@ -18,8 +18,8 @@ function main() {
         window.gapi_onload = authorize;
         loadScript('https://apis.google.com/js/client.js');
     });
-    function loadScript(url) {
-        var request = new XMLHttpRequest();
+    function loadScript(url: string): void {
+        let request:XMLHttpRequest = new XMLHttpRequest();
         request.onreadystatechange = function() {
             if (request.readyState !== 4) {
                 return;
@@ -36,7 +36,7 @@ function main() {
 
     function authorize(): void {
         gapi.auth.authorize({
-            client_id: client_id,
+            client_id: clientId,
             immediate: true,
             scope: 'https://www.googleapis.com/auth/calendar'
         }, function() {
@@ -45,13 +45,9 @@ function main() {
     }
 
     loadEvents();
-    //document.getElementById("Create").addEventListener("click", createEventsBrowserAction);
-    //document.getElementById("toggle-body-icon").addEventListener("click", setMaxEvents);
-    //document.getElementById("toggle-body-icon").addEventListener("click", loadEvents);
 }
 
-function setMaxEvents() {
-    console.log('Entered setMaxEvents')
+function setMaxEvents(): void {
     if (maxEvents == 4)
         maxEvents = 30;
     else
@@ -59,9 +55,8 @@ function setMaxEvents() {
 }
 
 // Function to load upcoming events from the user's calendar
-function loadEvents() {
-    console.log("Loading events");
-    var displayRequest = gapi.client.calendar.events.list(
+function loadEvents(): void {
+    let displayRequest = gapi.client.calendar.events.list(
         {
             'calendarId': 'primary',
             'timeMin': (new Date()).toISOString(),
@@ -72,20 +67,19 @@ function loadEvents() {
     );
     displayRequest.execute(function(resp) {
         events = resp.items;
-        console.log(events);
         if (events.length > 0) { //display next events if they exist
-            for (var i = 0; i < events.length && i < maxEvents; i++) {
-                var event = events[i];
-                var when = event.start.dateTime;
+            for (let i: number = 0; i < events.length && i < maxEvents; i++) {
+                let event = events[i];
+                let when: string = event.start.dateTime;
                 if (!when) {
                     when = event.start.date;
                 }
-                var summary = event.summary;
+                let summary: string = event.summary;
                 if (summary == undefined)
                     summary = "(No title)"
                 let dateObj: Date = new Date(when);
-                var date = dateObj.toLocaleDateString();
-                var time = dateObj.toLocaleTimeString();
+                let date: string = dateObj.toLocaleDateString();
+                let time: string = dateObj.toLocaleTimeString();
                 display(summary + '\n <br>' + date + "\n" + time);
             }
         }
@@ -132,9 +126,9 @@ function createEvents(eventSummary: string, eventLocation: string, eventStartDat
     let startDay: string = eventStartDate.slice(eventStartDate.indexOf(' ') + 1, eventStartDate.indexOf(','));
     let endDay: string = eventEndDate.slice(eventEndDate.indexOf(' ') + 1, eventEndDate.indexOf(','));
     if (startDay.length == 1)
-        startDay = "0" + startDay
+        startDay = "0" + startDay;
     if (endDay.length == 1)
-        endDay = "0" + endDay
+        endDay = "0" + endDay;
 
     eventStartDate = eventStartDate.slice(-4) + "-" + months[eventStartDate.slice(0, 3)] + "-" + startDay;
     eventEndDate = eventEndDate.slice(-4) + "-" + months[eventEndDate.slice(0, 3)] + "-" + endDay;
@@ -190,27 +184,26 @@ function createEvents(eventSummary: string, eventLocation: string, eventStartDat
             'timeZone': 'America/New_York'
         }
     };
-    console.log("About to load request");
+
     let request = gapi.client.calendar.events.insert({
         'calendarId': 'primary',
         'resource': event
     });
-    console.log("Request loaded");
+
     request.execute(function(event) {
         console.log(event);
     });
-    console.log("Request executed");
 }
 
 
 //function to add a message to the popup
-function display(message): void {
-    var views = chrome.extension.getViews({
+function display(message: string): void {
+    let views: Window[] = chrome.extension.getViews({
         type: "popup"
     });
-    for (var i = 0; i < views.length; i++) {
-        var pre = views[i].document.getElementById('agenda');
-        var textContent = document.createTextNode(message + '\n');
+    for (let i: number = 0; i < views.length; i++) {
+        let pre: Element = views[i].document.getElementById('agenda');
+        document.createTextNode(message + '\n');
         pre.innerHTML = pre.innerHTML + "<div class= card-panel new-event>" + message + "</div>";
     }
 
@@ -230,6 +223,5 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab): void {
 // Receive messages from the popup iframe and call the
 //  createEvents() function with the appropriate information
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse): void {
-    console.log("Received message");
     createEvents(request["summary"], request["location"], request["startDate"], request["endDate"], request["description"], request["startTime"], request["endTime"]);
 })
