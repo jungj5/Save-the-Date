@@ -75,34 +75,34 @@ $('#Create').click(function() {
 //#########################Auto-fill implementation###########################
 
 //Helper function for reformatting the times.
-function formatAMPM(date) {
-    var hours = date.getHours();
-    var minutes = date.getMinutes();
-    var ampm = hours >= 12 ? 'PM' : 'AM';
-    hours = hours % 12;
-    hours = hours ? hours : 12; // the hour '0' should be '12'
-    minutes = minutes < 10 ? '0' + minutes : minutes;
-    var strTime = hours + ':' + minutes + ' ' + ampm;
-    return strTime;
+function formatAMPM(date): string {
+  let hours: number = date.getHours();
+  let minutes: number = date.getMinutes();
+  let ampm: string = hours >= 12 ? 'PM' : 'AM';
+  hours = hours % 12;
+  hours = hours ? hours : 12; // the hour '0' should be '12'
+  minutes = minutes < 10 ? '0'+minutes : minutes;
+  let strTime: string = hours + ':' + minutes + ' ' + ampm;
+  return strTime;
 }
 
-var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
-    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+let monthNames: string[] = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
 ];
 
 //Grab hover_popup.html url
-var word = decodeURIComponent(window.location.search.substring(window.location.search.indexOf('date=')));
+let word: string = decodeURIComponent(window.location.search.substring(window.location.search.indexOf('date=')));
 word = word.slice(5, word.length); //get the date from the url
 
 //Check if there are two dates in the url.
-var count = (word.match(/date=/g) || []).length;
+let count: number = (word.match(/date=/g) || []).length;
 
 //If there are two dates..
 if (count == 1) {
-    var endTime = word.slice(word.indexOf('date=') + 5, word.length);
-    var startTime = word.slice(0, word.indexOf('?date='));
-    var d1 = new Date(startTime);
-    var d2 = new Date(endTime);
+  let endTime: string = word.slice(word.indexOf('date=') + 5, word.length);
+  let startTime: string = word.slice(0, word.indexOf('?date='));
+  let d1: Date = new Date(startTime);
+  let d2: Date = new Date(endTime);
 
     //if we are in the hover popup... Do the autofill.
     if (document.URL.indexOf('hover') != -1) {
@@ -129,7 +129,7 @@ if (count == 1) {
 }
 
 else {
-    var d = new Date(word);
+  let d: Date = new Date(word);
 
     //Do this only if the popup is the hover popup and not the browser action button.
     if (document.URL.indexOf('hover') != -1) {
@@ -147,10 +147,10 @@ else {
             $('#timepicker1').val(formatAMPM(d));
         }
 
-        //Now handling end time if no end time was given. (Using event duration of 1 hour as default)
-        var d2 = new Date(d);
-        d2.setHours(d.getHours() + 1);
-        $('#end_date').val(monthNames[d2.getMonth()] + " " + d2.getDate() + ", " + d2.getFullYear());
+    //Now handling end time if no end time was given. (Using event duration of 1 hour as default)
+    let d2: Date = new Date (d);
+    d2.setHours(d.getHours() + 1);
+    $('#end_date').val(monthNames[d2.getMonth()] + " " + d2.getDate() + ", " + d2.getFullYear());
 
         //Same as above, if the hour of the time only one digit, prepend a 0. Else leave as is and fill.
         if (formatAMPM(d2).indexOf(":") == 1) {
@@ -162,7 +162,7 @@ else {
     }
 }
 
-//########## Required format for inputting date/time #########
+//########## Required format for inputting date/time ###########
 //Nov 1, 2016
 //12:00 PM
 

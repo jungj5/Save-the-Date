@@ -14,7 +14,7 @@
 // Variable Declarations
 // -------------
 
-declare var chrono: any;
+declare let chrono: any;
 
 
 // -------------
@@ -99,8 +99,8 @@ class ChronoParser {
     // Get the number of conflicts that the
     //  proposed event has with existing events
     private getNumConflicts(proposedEventStart: Date, proposedEventEnd: Date): number {
-        let count = 0;
-        for (let i = 0; i < this.events.length; i++) {
+        let count: number = 0;
+        for (let i: number = 0; i < this.events.length; i++) {
             let currentEventStart: Date = new Date(this.events[i].start.dateTime);
             let currentEventEnd: Date = new Date(this.events[i].end.dateTime);
             // Compare the proposed event's start and end time
@@ -124,7 +124,7 @@ class ChronoParser {
 
     // Find all of the text corresponding to time
     //  events in the specified DOM element
-    public parseDom(element: HTMLElement): { [index: string]: string[] } {
+    public parseDom(element: HTMLElement) {
 
         // Try to get more of the text from the page
         // .text() works for now but it can be better
@@ -133,14 +133,14 @@ class ChronoParser {
 
         // Structure to store the text to mark and its
         //  associated colors
-        let textToMark: { [index: string]: string[] } = {
+        let textToMark = {
             "green": [],
             "yellow": [],
             "red": [],
         };
 
         for (let i: number = 0; i < parserResults.length; i++) {
-            let parserResult: ParsedResult = parserResults[i];
+            let parserResult = parserResults[i];
             let matchedText: string = parserResult.text;
 
             // Ignore past events
@@ -168,7 +168,7 @@ class ChronoParser {
 
             // Assign an appropriate color based on the
             //  number of event conflicts
-            let numConflicts = this.getNumConflicts(proposedEventStart, proposedEventEnd);
+            let numConflicts: number = this.getNumConflicts(proposedEventStart, proposedEventEnd);
             if (numConflicts == 0) {
                 textToMark["green"].push(matchedText);
             } else if (numConflicts == 1) {

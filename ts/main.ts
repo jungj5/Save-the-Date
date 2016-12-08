@@ -1,8 +1,3 @@
-/// <reference path="parser.ts" />
-/// <reference path="marker.ts" />
-
-console.log("I AM PENCIL-IT-IN, FEEL MY WRATH");
-
 // -------------
 // Constant Global Variables
 // -------------
@@ -43,12 +38,8 @@ function addHover(): void {
         // Cursor coordinates
         let x: number = e.clientX;
         let y: number = e.clientY;
-        console.log("x = " + x);
-        console.log("y = " + y);
-        console.log("window width = " + $(window).width());
-        console.log("window height = " + $(window).height());
-        let maxX = $(window).width();
-        let maxY = $(window).height();
+        let maxX: number = $(window).width();
+        let maxY: number = $(window).height();
         if ((maxY - y) < 390) {
             y = y + OFFSET_Y_OPPOSITE;
         } else {
@@ -67,7 +58,7 @@ function addHover(): void {
             // Create the iframe for the popup box
             let popupURL: string = chrome.runtime.getURL('html/hover_popup.html');
             let dateText: string = $(e.target).text();
-            let parsedText: any = chrono.parse(dateText);
+            let parsedText = chrono.parse(dateText);
 
             if (parsedText[0].end == undefined) {
 
