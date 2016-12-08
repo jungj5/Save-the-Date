@@ -2,9 +2,13 @@
 // PARSER class that handles all page parsing including
 //  filtering out old events and events lacking appropriate
 //  information, checking the number of event conflicts,
-//  and returning all of the proposed events with their 
+//  and returning all of the proposed events with their
 //  coloring
 // --------------------------------------------------------
+
+// This class in combination with popup.ts follows
+// the Interpreter design pattern. (Specifically with dates)
+
 
 // -------------
 // Variable Declarations
@@ -92,7 +96,7 @@ class ChronoParser {
         }
     }
 
-    // Get the number of conflicts that the 
+    // Get the number of conflicts that the
     //  proposed event has with existing events
     private getNumConflicts(proposedEventStart: Date, proposedEventEnd: Date): number {
         let count = 0;
@@ -101,7 +105,7 @@ class ChronoParser {
             let currentEventEnd: Date = new Date(this.events[i].end.dateTime);
             // Compare the proposed event's start and end time
             //  with each event already on the calendar
-            if ((proposedEventStart.getTime() >= currentEventStart.getTime() && proposedEventStart.getTime() <= currentEventEnd.getTime()) 
+            if ((proposedEventStart.getTime() >= currentEventStart.getTime() && proposedEventStart.getTime() <= currentEventEnd.getTime())
                 || (proposedEventEnd.getTime() >= currentEventStart.getTime() && proposedEventEnd.getTime() <= currentEventEnd.getTime())
                 || (proposedEventStart.getTime() <= currentEventStart.getTime() && proposedEventEnd.getTime() >= currentEventEnd.getTime())) {
                 count++;
@@ -162,7 +166,7 @@ class ChronoParser {
                 proposedEventEnd.setHours(proposedEventStart.getHours()+DEFAULT_EVENT_LENGTH);
             }
 
-            // Assign an appropriate color based on the 
+            // Assign an appropriate color based on the
             //  number of event conflicts
             let numConflicts = this.getNumConflicts(proposedEventStart, proposedEventEnd);
             if (numConflicts == 0) {
