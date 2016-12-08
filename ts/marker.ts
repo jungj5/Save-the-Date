@@ -7,7 +7,7 @@
 // Variable Declarations
 // -------------
 
-declare var Mark: any;
+declare let Mark;
 
 
 // -------------
