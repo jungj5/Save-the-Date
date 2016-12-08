@@ -60,6 +60,8 @@ function addHover(): void {
             let dateText: string = $(e.target).text();
             let parsedText = chrono.parse(dateText);
 
+            // Add in the end time if it is there, otherwise
+            //  it defaults to one hour after the start time
             if (parsedText[0].end == undefined) {
 
                 $("<iframe id='calPopup' class='calendarPopup' src='" + popupURL + '?date=' + encodeURIComponent(parsedText[0].start.date()) +
