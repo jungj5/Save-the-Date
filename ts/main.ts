@@ -60,33 +60,33 @@ function addHover(): void {
             x = x + OFFSET_X;
         }
 
-            // Set a timer so that the popup box only appears
-            //  if the user hovers over the highlighted text
-            //  for 350 milliseconds
-            timeout = window.setTimeout(function() {
-                // Create the iframe for the popup box
-                let popupURL: string = chrome.runtime.getURL('html/hover_popup.html');
-                let dateText: string = $(e.target).text();
-                let parsedText: any = chrono.parse(dateText);
+        // Set a timer so that the popup box only appears
+        //  if the user hovers over the highlighted text
+        //  for 350 milliseconds
+        timeout = window.setTimeout(function() {
+            // Create the iframe for the popup box
+            let popupURL: string = chrome.runtime.getURL('html/hover_popup.html');
+            let dateText: string = $(e.target).text();
+            let parsedText: any = chrono.parse(dateText);
 
-                if (parsedText[0].end == undefined) {
+            if (parsedText[0].end == undefined) {
 
-                    $("<iframe id='calPopup' class='calendarPopup' src='" + popupURL + '?date=' + encodeURIComponent(parsedText[0].start.date()) +
-                        "' height='354.375' width='280'></iframe>")
-                        .appendTo("body")
-                        .fadeIn("slow")
-                        .css({top: y+"px", left: x+"px"});
-                }
-                else{
-                    $("<iframe id='calPopup' class='calendarPopup' src='" + popupURL + '?date=' + encodeURIComponent(parsedText[0].start.date()) + '?date=' + encodeURIComponent(parsedText[0].end.date()) + "' height='354.375' width='280'></iframe>")
-                        .appendTo("body")
-                        .fadeIn("slow")
-                        .css({top: y+"px", left: x+"px"});
-                }
+                $("<iframe id='calPopup' class='calendarPopup' src='" + popupURL + '?date=' + encodeURIComponent(parsedText[0].start.date()) +
+                    "' height='354.375' width='280'></iframe>")
+                    .appendTo("body")
+                    .fadeIn("slow")
+                    .css({ top: y + "px", left: x + "px" });
+            }
+            else {
+                $("<iframe id='calPopup' class='calendarPopup' src='" + popupURL + '?date=' + encodeURIComponent(parsedText[0].start.date()) + '?date=' + encodeURIComponent(parsedText[0].end.date()) + "' height='354.375' width='280'></iframe>")
+                    .appendTo("body")
+                    .fadeIn("slow")
+                    .css({ top: y + "px", left: x + "px" });
+            }
 
-            }, 350);
+        }, 350);
 
-    // Hover out code
+        // Hover out code
     }, function() {
         // Remove the timer
         window.clearTimeout(timeout);
@@ -102,9 +102,9 @@ function addHover(): void {
     $(".calendarPopup").hover(function() {
         window.clearTimeout(popupTimeout);
     }, function() {
-            popupTimeout = window.setTimeout(function() {
-                $('.calendarPopup').remove();
-            }, 500);
+        popupTimeout = window.setTimeout(function() {
+            $('.calendarPopup').remove();
+        }, 500);
     });
 }
 
@@ -120,43 +120,43 @@ $(document).ready(function(): void {
     // Wait until the calendar events are received from the
     //  GCal class
     chrome.runtime.onMessage.addListener(
-      function(request, sender, sendResponse) {
+        function(request, sender, sendResponse) {
 
-        // Initialize the parser and the marker
-        let chronoParser: ChronoParser = new ChronoParser(request);
-        let marker: Marker = new Marker(document.body);
+            // Initialize the parser and the marker
+            let chronoParser: ChronoParser = new ChronoParser(request);
+            let marker: Marker = new Marker(document.body);
 
-        // Parse the page and highlight appropriate text
-        // Add hover functinality
-        let textToMark = chronoParser.parseDom(document.body);
-        marker.markText(textToMark);
-        addHover();
+            // Parse the page and highlight appropriate text
+            // Add hover functinality
+            let textToMark = chronoParser.parseDom(document.body);
+            marker.markText(textToMark);
+            addHover();
 
-        let observer: MutationObserver = new MutationObserver(function(mutations: MutationRecord[]): void {
-            // Called every time a DOM mutation occurs
-            mutations.forEach(function(mutation: MutationRecord): void {
-                let newNodes: NodeList = mutation.addedNodes;
-                if (newNodes) {
-                    $(newNodes).each(function(index: number, node: HTMLElement) {
-                        // Reparse the changed element and remark
-                        textToMark = chronoParser.parseDom(node);
-                        marker.setContext(node);
-                        marker.markText(textToMark);
-                        //Add the hover functionality
-                        addHover();
-                    });
-                }
+            let observer: MutationObserver = new MutationObserver(function(mutations: MutationRecord[]): void {
+                // Called every time a DOM mutation occurs
+                mutations.forEach(function(mutation: MutationRecord): void {
+                    let newNodes: NodeList = mutation.addedNodes;
+                    if (newNodes) {
+                        $(newNodes).each(function(index: number, node: HTMLElement) {
+                            // Reparse the changed element and remark
+                            textToMark = chronoParser.parseDom(node);
+                            marker.setContext(node);
+                            marker.markText(textToMark);
+                            //Add the hover functionality
+                            addHover();
+                        });
+                    }
+                });
             });
-        });
 
-        // Specify what to observe and attach the
-        //  observer to the document body
-        let observerConfig: ObserverConfig = {
-            attributes: false,
-            childList: true,
-            characterData: true,
-            subtree: true
-        };
-        observer.observe(document.body, observerConfig);
-    });
+            // Specify what to observe and attach the
+            //  observer to the document body
+            let observerConfig: ObserverConfig = {
+                attributes: false,
+                childList: true,
+                characterData: true,
+                subtree: true
+            };
+            observer.observe(document.body, observerConfig);
+        });
 });

@@ -1,26 +1,26 @@
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', function() {
     main();
 });
 
-var events;
+var events: any;
 var gapi;
 let maxEvents;
 
 // Get the Google Calendar client ID from the manifest
-let client_id:string = chrome.runtime.getManifest().oauth2.client_id;
+let client_id: string = chrome.runtime.getManifest().oauth2.client_id;
 
 function main() {
     maxEvents = 30;
 
     //oauth2 auth
-    chrome.identity.getAuthToken({ 'interactive': true }, function () {
+    chrome.identity.getAuthToken({ 'interactive': true }, function() {
         //load Google's javascript client libraries
         window.gapi_onload = authorize;
         loadScript('https://apis.google.com/js/client.js');
     });
     function loadScript(url) {
         var request = new XMLHttpRequest();
-        request.onreadystatechange = function () {
+        request.onreadystatechange = function() {
             if (request.readyState !== 4) {
                 return;
             }
@@ -39,7 +39,7 @@ function main() {
             client_id: client_id,
             immediate: true,
             scope: 'https://www.googleapis.com/auth/calendar'
-        }, function () {
+        }, function() {
             gapi.client.load('calendar', 'v3', loadEvents);
         });
     }
@@ -50,50 +50,49 @@ function main() {
     //document.getElementById("toggle-body-icon").addEventListener("click", loadEvents);
 }
 
-function setMaxEvents(){
+function setMaxEvents() {
     console.log('Entered setMaxEvents')
-    if(maxEvents == 4)
+    if (maxEvents == 4)
         maxEvents = 30;
     else
-         maxEvents = 4;
+        maxEvents = 4;
 }
 
 // Function to load upcoming events from the user's calendar
-function loadEvents(){
+function loadEvents() {
     console.log("Loading events");
     var displayRequest = gapi.client.calendar.events.list(
         {
-          'calendarId': 'primary',
-          'timeMin': (new Date()).toISOString(),
-          'showDeleted': false,
-          'singleEvents': true,
-          'orderBy': 'startTime'
+            'calendarId': 'primary',
+            'timeMin': (new Date()).toISOString(),
+            'showDeleted': false,
+            'singleEvents': true,
+            'orderBy': 'startTime'
         }
     );
-    displayRequest.execute(function(resp)
-        {
-            events = resp.items;
-            console.log(events);
-            if (events.length > 0) { //display next events if they exist
-                for (var i = 0; i < events.length && i < maxEvents; i++) {
-                    var event = events[i];
-                    var when = event.start.dateTime;
-                    if (!when) {
-                        when = event.start.date;
-                    }
-                    var summary = event.summary;
-                    if(summary == undefined)
-                        summary = "(No title)"
-                    let dateObj:Date = new Date(when);
-                    var date = dateObj.toLocaleDateString();
-                    var time = dateObj.toLocaleTimeString();
-                    display(summary + '\n <br>' + date + "\n" + time);
+    displayRequest.execute(function(resp) {
+        events = resp.items;
+        console.log(events);
+        if (events.length > 0) { //display next events if they exist
+            for (var i = 0; i < events.length && i < maxEvents; i++) {
+                var event = events[i];
+                var when = event.start.dateTime;
+                if (!when) {
+                    when = event.start.date;
                 }
-            }
-            else {
-                display('No events.');
+                var summary = event.summary;
+                if (summary == undefined)
+                    summary = "(No title)"
+                let dateObj: Date = new Date(when);
+                var date = dateObj.toLocaleDateString();
+                var time = dateObj.toLocaleTimeString();
+                display(summary + '\n <br>' + date + "\n" + time);
             }
         }
+        else {
+            display('No events.');
+        }
+    }
     );
 }
 
@@ -130,11 +129,11 @@ function createEvents(eventSummary: string, eventLocation: string, eventStartDat
     };
 
     //format dates to work with Google Calendar API
-    let startDay: string = eventStartDate.slice(eventStartDate.indexOf(' ') + 1 ,eventStartDate.indexOf(','));
-    let endDay: string = eventEndDate.slice(eventEndDate.indexOf(' ') + 1 ,eventEndDate.indexOf(','));
-    if(startDay.length == 1)
+    let startDay: string = eventStartDate.slice(eventStartDate.indexOf(' ') + 1, eventStartDate.indexOf(','));
+    let endDay: string = eventEndDate.slice(eventEndDate.indexOf(' ') + 1, eventEndDate.indexOf(','));
+    if (startDay.length == 1)
         startDay = "0" + startDay
-    if(endDay.length == 1)
+    if (endDay.length == 1)
         endDay = "0" + endDay
 
     eventStartDate = eventStartDate.slice(-4) + "-" + months[eventStartDate.slice(0, 3)] + "-" + startDay;
@@ -197,7 +196,7 @@ function createEvents(eventSummary: string, eventLocation: string, eventStartDat
         'resource': event
     });
     console.log("Request loaded");
-    request.execute(function (event) {
+    request.execute(function(event) {
         console.log(event);
     });
     console.log("Request executed");
@@ -222,8 +221,8 @@ function display(message): void {
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab): void {
     if (changeInfo.status == 'complete' && tab.active) {
         loadEvents();
-        chrome.tabs.query({active: true, currentWindow: true}, function(tabs): void {
-          chrome.tabs.sendMessage(tabs[0].id, events, function(response) {});
+        chrome.tabs.query({ active: true, currentWindow: true }, function(tabs): void {
+            chrome.tabs.sendMessage(tabs[0].id, events, function(response) { });
         });
     }
 })

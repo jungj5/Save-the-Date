@@ -2,7 +2,7 @@
 // PARSER class that handles all page parsing including
 //  filtering out old events and events lacking appropriate
 //  information, checking the number of event conflicts,
-//  and returning all of the proposed events with their 
+//  and returning all of the proposed events with their
 //  coloring
 // --------------------------------------------------------
 
@@ -84,7 +84,7 @@ class ChronoParser {
     private isPastEvent(parsedResult): boolean {
         let parsedDate: Date = new Date(parsedResult.start.date());
         let currentDate: Date = new Date();
-        currentDate.setHours(23,59,59,999);
+        currentDate.setHours(23, 59, 59, 999);
         if (parsedDate.getTime() <= currentDate.getTime()) {
             return true;
         } else {
@@ -92,7 +92,7 @@ class ChronoParser {
         }
     }
 
-    // Get the number of conflicts that the 
+    // Get the number of conflicts that the
     //  proposed event has with existing events
     private getNumConflicts(proposedEventStart: Date, proposedEventEnd: Date): number {
         let count = 0;
@@ -101,7 +101,7 @@ class ChronoParser {
             let currentEventEnd: Date = new Date(this.events[i].end.dateTime);
             // Compare the proposed event's start and end time
             //  with each event already on the calendar
-            if ((proposedEventStart.getTime() >= currentEventStart.getTime() && proposedEventStart.getTime() <= currentEventEnd.getTime()) 
+            if ((proposedEventStart.getTime() >= currentEventStart.getTime() && proposedEventStart.getTime() <= currentEventEnd.getTime())
                 || (proposedEventEnd.getTime() >= currentEventStart.getTime() && proposedEventEnd.getTime() <= currentEventEnd.getTime())
                 || (proposedEventStart.getTime() <= currentEventStart.getTime() && proposedEventEnd.getTime() >= currentEventEnd.getTime())) {
                 count++;
@@ -120,7 +120,7 @@ class ChronoParser {
 
     // Find all of the text corresponding to time
     //  events in the specified DOM element
-    public parseDom(element: HTMLElement): {[index: string]: string[]} {
+    public parseDom(element: HTMLElement): { [index: string]: string[] } {
 
         // Try to get more of the text from the page
         // .text() works for now but it can be better
@@ -129,7 +129,7 @@ class ChronoParser {
 
         // Structure to store the text to mark and its
         //  associated colors
-        let textToMark: {[index: string]: string[]} = {
+        let textToMark: { [index: string]: string[] } = {
             "green": [],
             "yellow": [],
             "red": [],
@@ -159,10 +159,10 @@ class ChronoParser {
             } else {
                 // Create an end time if there is not currently one
                 proposedEventEnd = new Date(parserResult.start.date());
-                proposedEventEnd.setHours(proposedEventStart.getHours()+DEFAULT_EVENT_LENGTH);
+                proposedEventEnd.setHours(proposedEventStart.getHours() + DEFAULT_EVENT_LENGTH);
             }
 
-            // Assign an appropriate color based on the 
+            // Assign an appropriate color based on the
             //  number of event conflicts
             let numConflicts = this.getNumConflicts(proposedEventStart, proposedEventEnd);
             if (numConflicts == 0) {
