@@ -6,6 +6,10 @@
 //  coloring
 // --------------------------------------------------------
 
+// This class in combination with popup.ts follows
+// the Interpreter design pattern. (Specifically with dates)
+
+
 // -------------
 // Variable Declarations
 // -------------
